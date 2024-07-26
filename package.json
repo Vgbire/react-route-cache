@@ -1,0 +1,61 @@
+{
+  "name": "react-route-cache",
+  "version": "1.0.6",
+  "description": "keep-alive cache for react router",
+  "keywords": [
+    "react",
+    "router",
+    "keep-alive",
+    "cache",
+    "keepAlive"
+  ],
+  "authors": {
+    "name": "Vgbire",
+    "email": "1053254202@qq.com"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": "https://github.com/Vgbire/react-route-cache",
+  "homepage": "https://github.com/Vgbire/react-route-cache",
+  "files": [
+    "dist",
+    "lib",
+    "es",
+    "package.json",
+    "README.md"
+  ],
+  "main": "./lib/index.cjs",
+  "module": "./es/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "rollup -c && tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@ant-design/icons": "^5.4.0",
+    "@rollup/plugin-commonjs": "^26.0.1",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@types/lodash": "^4.17.7",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "ahooks": "^3.8.0",
+    "antd": "^5.19.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.25.1",
+    "rollup": "^4.19.0",
+    "rollup-plugin-dts": "^6.1.1",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.2",
+    "tslib": "^2.6.3",
+    "typescript": "^5.5.4"
+  },
+  "peerDependencies": {
+    "react": "^18"
+  }
+}

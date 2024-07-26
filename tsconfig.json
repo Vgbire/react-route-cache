@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "outDir": "dist",
+    "target": "es6",
+    "module": "esnext",
+    "jsx": "react",
+    "strict": false,
+    "moduleResolution": "Bundler",
+    "lib": ["dom", "es2022"],
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "skipLibCheck": false,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src"]
+}
