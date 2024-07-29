@@ -7,20 +7,25 @@ export const useKeepAlive = () => {
 
   const { active, setActive, tabs, setTabs } = useKeepAliveContext();
 
-  const close = (key?: string, url?: string) => {
+  const close = (key?: string) => {
     const tabKey = key || pathname;
     const index = tabs.findIndex((item) => item.key === tabKey);
     if (index !== -1 && tabs.length > 1) {
       tabs.splice(index, 1);
       setTabs([...tabs]);
       if (active === tabKey) {
-        navigator(url || tabs[0].key);
+        navigator(tabs[0].key);
       }
     }
   };
 
   const closeNavigator = (url: string) => {
-    close(undefined, url);
+    const index = tabs.findIndex((item) => item.key === pathname);
+    if (index !== -1) {
+      tabs.splice(index, 1);
+      setTabs([...tabs]);
+      navigator(url);
+    }
   };
 
   const closeAll = () => {
