@@ -1,6 +1,6 @@
 {
   "name": "react-route-cache",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "keep-alive cache for react router",
   "keywords": [
     "react",
@@ -45,6 +45,7 @@
     "@types/react-dom": "^18.3.0",
     "ahooks": "^3.8.0",
     "antd": "^5.19.3",
+    "prettier": "^3.3.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.25.1",
@@ -52,10 +53,12 @@
     "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
+    "sass": "^1.77.8",
     "tslib": "^2.6.3",
     "typescript": "^5.5.4"
   },
   "peerDependencies": {
-    "react": "^18"
+    "react": "^18.0.0",
+    "react-router-dom": "^6.0.0"
   }
 }

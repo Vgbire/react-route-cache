@@ -5,7 +5,7 @@ import { useSize } from 'ahooks';
 import { Divider, Flex, Modal } from 'antd';
 import { useKeepAliveContext } from '../context';
 import { useKeepAlive } from '../hooks/use-keep-alive';
-// import '../index.scss';
+import '../index.scss';
 
 export const RouterTabs: FC = () => {
   const { tabs, active } = useKeepAliveContext();
