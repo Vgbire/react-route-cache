@@ -14,45 +14,47 @@ yarn add react-route-cache
 1. 给 Layout 组件的 outlet 加上 keep-alive
 
 ```js
-import { KeepAlive, KeepAliveScope, RouterTabs } from "react-route-cache"
-import { useOutlet } from "react-router-dom"
+// Layout.tsx
+import { KeepAlive, KeepAliveScope, RouterTabs } from 'react-route-cache';
+import { useOutlet } from 'react-router-dom';
 
 const Layout = () => {
   // 需要使用useOutlet
-  const outlet = useOutlet()
+  const outlet = useOutlet();
 
   return (
     <KeepAliveScope>
       <RouterTabs />
       <KeepAlive>{outlet}</KeepAlive>
     </KeepAliveScope>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;
 ```
 
 2. 路由定义需要增加 name 属性
 
 ```js
+// router.ts
 // 也可以是createHashRouter
+import Layout form './Layout'
+
 createBrowserRouter([
-  {
-    path: "/",
-    element: <Root />,
-    loader: rootLoader,
-    // 增加name属性，否则标签没有title，展示出现问题
-    handle: { name: "首页" },
-    children: [
-      {
-        path: "events/:id",
-        element: <Event />,
-        loader: eventLoader,
-        handle: { name: "事件" },
-      },
-    ],
-  },
-])
+    {
+        path: "/",
+        element: <Layout />,
+        loader: rootLoader
+        children: [
+            {
+                path: "events",
+                element: <Event />,
+                // 增加name属性，否则标签没有title，展示出现问题
+                handle: { name: "事件" },
+            }
+         ]
+      }
+]);
 ```
 
 3. 生命周期函数
@@ -60,22 +62,22 @@ createBrowserRouter([
    - 第二个可选参数是一个依赖项数组，为了更新回调函数里的依赖，一般不会用到，功能类似 useCallback，依赖变化不会执行函数。
 
 ```js
-import { useActivated, useDeactivated } from "react-route-cache"
+import { useActivated, useDeactivated } from 'react-route-cache';
 
 export const Demo = () => {
   useActivated(() => {
-    console.log("激活")
+    console.log('激活');
     return () => {
-      console.log("activated返回的方法会在Deactivated的时候执行")
-    }
-  })
+      console.log('activated返回的方法会在Deactivated的时候执行');
+    };
+  });
 
   useDeactivated(() => {
-    console.log("离开组件")
-  })
+    console.log('离开组件');
+  });
 
-  return <div>123</div>
-}
+  return <div>123</div>;
+};
 ```
 
 ## 其他 API
