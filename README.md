@@ -11,7 +11,7 @@ yarn add react-route-cache
 
 ## 使用
 
-1. 给 Layout 组件的 outlet 加上 keep-alive
+给 Layout 组件的 outlet 加上 keep-alive
 
 ```js
 // Layout.tsx
@@ -33,7 +33,7 @@ const Layout = () => {
 export default Layout;
 ```
 
-2. 路由定义需要增加 name 属性
+路由定义需要增加 name 属性
 
 ```js
 // router.ts
@@ -57,9 +57,10 @@ createBrowserRouter([
 ]);
 ```
 
-3. 生命周期函数
-   - useActivated 返回的方法会在 Deactivated 的时候执行。
-   - 第二个可选参数是一个依赖项数组，为了更新回调函数里的依赖，一般不会用到，功能类似 useCallback，依赖变化不会执行函数。
+生命周期函数
+
+- useActivated 返回的方法会在 Deactivated 的时候执行。
+- 第二个可选参数是一个依赖项数组，为了更新回调函数里的依赖，一般不会用到，功能类似 useCallback，依赖变化不会执行函数。
 
 ```js
 import { useActivated, useDeactivated } from 'react-route-cache';
@@ -82,23 +83,26 @@ export const Demo = () => {
 
 ## 其他 API
 
-1. mode
-   - 默认匹配路由 path，path 变化则会新增一个 tab，也就是如果查询参数变化不会新增一个 tab 缓存组件
-   - 如果希望查询参数变化也会新增一个 tab 需要将 mode 改为 search
-2. nameKey：如果路由 name 已被占用，可以通过该字段获取 handle 下其他字段的信息作为 tab 的 title
+mode
+
+- 默认匹配路由 path，path 变化则会新增一个 tab，也就是如果查询参数变化不会新增一个 tab 缓存组件
+- 如果希望查询参数变化也会新增一个 tab 需要将 mode 改为 search
+
+nameKey：如果路由 name 已被占用，可以通过该字段获取 handle 下其他字段的信息作为 tab 的 title
 
 ```js
 interface KeepAliveScopeProps {
   mode?: "path" | "search";
   nameKey?: string;
 }
-;<KeepAliveScope mode="search" nameKey="tabName" />
+<KeepAliveScope mode="search" nameKey="tabName" />
 ```
 
-3. close、closeAll、closeNavigator
-   - close 方法用于关闭当前标签页
-   - closeAll 用于关闭除了当前激活的 tab 所有的标签页
-   - closeNavigator 是为了解决比如表单创建页，创建完之后需要跳转到其他路由。closeNavigator 会关闭当前创建页标签，然后跳转到指定路由。是 close()和 navigator(url)的语法糖。
+close、closeAll、closeNavigator
+
+- close 方法用于关闭当前标签页
+- closeAll 用于关闭除了当前激活的 tab 所有的标签页
+- closeNavigator 是为了解决比如表单创建页，创建完之后需要跳转到其他路由。closeNavigator 会关闭当前创建页标签，然后跳转到指定路由。是 close()和 navigator(url)的语法糖。
 
 ```js
 import { useKeepAlive } from '../hooks/use-keep-alive';

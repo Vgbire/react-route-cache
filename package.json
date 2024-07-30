@@ -1,6 +1,6 @@
 {
   "name": "react-route-cache",
-  "version": "1.0.10",
+  "version": "1.0.12",
   "description": "keep-alive cache for react router",
   "keywords": [
     "react",
@@ -33,7 +33,7 @@
     "build": "rollup -c && tsc"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@ant-design/icons": "^5.4.0",
     "@rollup/plugin-commonjs": "^26.0.1",
