@@ -1,3 +1,7 @@
+## Demo
+
+[CodeSandbox](https://codesandbox.io/p/sandbox/react-route-cache-demo-nc2xwy)
+
 ## 安装
 
 ```js
