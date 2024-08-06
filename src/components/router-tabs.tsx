@@ -179,6 +179,8 @@ export const RouterTabs: FC = () => {
           Modal.confirm({
             title: '你确定要关闭其他标签吗?',
             content: '关闭的标签页将不会被缓存',
+            cancelText: '取消',
+            okText: '确定',
             onOk() {
               closeAll();
             },
