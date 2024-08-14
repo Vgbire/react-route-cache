@@ -1,7 +1,8 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { useEffect, useRef, ReactNode } from 'react';
 import { Component } from './component';
 import { useKeepAliveContext } from '../context';
+import { useMatches } from 'react-router-dom';
 
 interface KeepAliveProps {
   include?: Array<string>;
@@ -13,15 +14,17 @@ interface KeepAliveProps {
 export const KeepAlive: FC<KeepAliveProps> = ({ children, exclude, include, max = 10 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { active, tabs, cahces, setCaches } = useKeepAliveContext();
+  const matches: any = useMatches();
+  const cache = matches[matches.length - 1].handle?.cache ?? true;
 
   useEffect(() => {
-    if (!active) {
+    if (!active || !cache) {
       return;
     }
     let cacheList = cahces;
     // 添加
-    const cache = cacheList.find((item) => item.name === active);
-    if (!cache) {
+    const cacheRoute = cacheList.find((item) => item.name === active);
+    if (!cacheRoute) {
       cacheList.push({
         name: active,
         ele: children,
@@ -48,7 +51,8 @@ export const KeepAlive: FC<KeepAliveProps> = ({ children, exclude, include, max 
 
   return (
     <>
-      <div ref={containerRef} />
+      {cache && <div ref={containerRef} />}
+      {!cache && children}
       {cahces.map(({ name, ele }) => {
         // return <div style={{ display: active === name ? 'block' : 'none' }}>{ele}</div>;
         return (
