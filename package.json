@@ -9,6 +9,7 @@
     "cache",
     "keepAlive"
   ],
+  "license": "MIT",
   "authors": {
     "name": "Vgbire",
     "email": "1053254202@qq.com"
@@ -16,8 +17,9 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
-  "repository": "https://github.com/Vgbire/react-route-cache",
   "homepage": "https://github.com/Vgbire/react-route-cache",
+  "repository": "https://github.com/Vgbire/react-route-cache",
+  "bugs": "https://github.com/Vgbire/react-route-cache/issues",
   "files": [
     "dist",
     "lib",
@@ -32,8 +34,6 @@
   "scripts": {
     "build": "rollup -c && tsc"
   },
-  "author": "",
-  "license": "MIT",
   "devDependencies": {
     "@ant-design/icons": "^5.4.0",
     "@rollup/plugin-commonjs": "^26.0.1",

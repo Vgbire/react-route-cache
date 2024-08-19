@@ -1,3 +1,10 @@
+## 功能
+
+- 标签式路由组件缓存，开箱即用
+- 每一个新路由切换都会在页面内新增一个标签tab，缓存其路由组件，切换路由或者tab标签组件不会重新加载
+- 支持配置路由组件是否需要缓存
+- 支持 Activated 和 Deactivated 生命周期函数
+
 ## Demo
 
 [CodeSandbox](https://codesandbox.io/p/sandbox/react-route-cache-demo-nc2xwy)
@@ -37,7 +44,7 @@ const Layout = () => {
 export default Layout;
 ```
 
-路由定义需要增加 name 属性
+路由定义需要增加 name、cache 属性（cache不配置默认开启缓存）
 
 ```js
 // router.ts
@@ -54,7 +61,8 @@ createBrowserRouter([
                 path: "events",
                 element: <Event />,
                 // 增加name属性，否则标签没有title，展示出现问题
-                handle: { name: "事件" },
+                // 如果不需要缓存可以配置cache false, 不配置或者true都会开启缓存
+                handle: { name: "事件", cache: false},
             }
          ]
       }
