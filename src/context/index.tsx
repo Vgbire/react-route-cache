@@ -13,8 +13,8 @@ interface KeepAliveContext {
   setActive?: (active: string) => void;
   tabs?: TabsItem[];
   setTabs?: (tabs: TabsItem[]) => void;
-  cahces?: CachesItem[];
-  setCaches?: (cahces: CachesItem[]) => void;
+  caches?: CachesItem[];
+  setCaches?: (caches: CachesItem[]) => void;
 }
 
 const KeepAliveContext = createContext<KeepAliveContext>({ activateds: {}, deactivateds: {} });
@@ -34,7 +34,7 @@ export const KeepAliveScope: FC<KeepAliveScopeProps> = ({ mode = 'path', nameKey
   const [deactivateds, setDeactivateds] = useState({});
   const [active, setActive] = useState('');
   const [tabs, setTabs] = useState<TabsItem[]>([]);
-  const [cahces, setCaches] = useState<CachesItem[]>([]);
+  const [caches, setCaches] = useState<CachesItem[]>([]);
 
   useEffect(() => {
     const key = mode === 'path' ? pathname : pathname + search;
@@ -88,7 +88,7 @@ export const KeepAliveScope: FC<KeepAliveScopeProps> = ({ mode = 'path', nameKey
         setActive,
         tabs,
         setTabs,
-        cahces,
+        caches,
         setCaches,
       }}
     >

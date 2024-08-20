@@ -13,7 +13,7 @@ interface KeepAliveProps {
 
 export const KeepAlive: FC<KeepAliveProps> = ({ children, exclude, include, max = 10 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { active, tabs, cahces, setCaches } = useKeepAliveContext();
+  const { active, tabs, caches, setCaches } = useKeepAliveContext();
   const matches: any = useMatches();
   const cache = matches[matches.length - 1].handle?.cache ?? true;
 
@@ -21,7 +21,7 @@ export const KeepAlive: FC<KeepAliveProps> = ({ children, exclude, include, max 
     if (!active || !cache) {
       return;
     }
-    let cacheList = cahces;
+    let cacheList = caches;
     // 添加
     const cacheRoute = cacheList.find((item) => item.name === active);
     if (!cacheRoute) {
@@ -30,7 +30,7 @@ export const KeepAlive: FC<KeepAliveProps> = ({ children, exclude, include, max 
         ele: children,
       });
       // 缓存超过上限的
-      if (cahces.length >= max) {
+      if (caches.length >= max) {
         cacheList.shift();
       }
     }
@@ -53,7 +53,7 @@ export const KeepAlive: FC<KeepAliveProps> = ({ children, exclude, include, max 
     <>
       {cache && <div ref={containerRef} />}
       {!cache && children}
-      {cahces.map(({ name, ele }) => {
+      {caches.map(({ name, ele }) => {
         // return <div style={{ display: active === name ? 'block' : 'none' }}>{ele}</div>;
         return (
           <Component key={name} show={name === active} to={containerRef}>
