@@ -1,4 +1,4 @@
-import { useEffect, ReactNode, RefObject, useState, FC } from 'react';
+import React, { useEffect, ReactNode, RefObject, useState, FC } from 'react';
 import { createPortal } from 'react-dom';
 
 interface ComponentProps {

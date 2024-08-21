@@ -126,3 +126,12 @@ import { useKeepAlive } from '../hooks/use-keep-alive';
   closeNavigator(url)
 ...
 ```
+
+### 开发 & 调试
+
+```js
+// 构建
+npm run build
+// 构建后运行example调试
+npm run start -w example
+```
