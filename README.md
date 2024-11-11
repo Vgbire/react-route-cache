@@ -100,6 +100,8 @@ mode
 - 默认匹配路由 path，path 变化则会新增一个 tab，也就是如果查询参数变化不会新增一个 tab 缓存组件
 - 如果希望查询参数变化也会新增一个 tab 需要将 mode 改为 search
 
+theme: 主题颜色，`dark | light`，默认为light
+
 nameKey：如果路由 name 已被占用，可以通过该字段获取 handle 下其他字段的信息作为 tab 的 title
 
 ```js
