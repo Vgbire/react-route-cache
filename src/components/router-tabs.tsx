@@ -7,7 +7,21 @@ import { useKeepAliveContext } from '../context';
 import { useKeepAlive } from '../hooks/use-keep-alive';
 import '../index.scss';
 
-export const RouterTabs: FC = () => {
+interface RouterTabsProps {
+  theme?: 'light' | 'dark';
+}
+
+export const RouterTabs: FC<RouterTabsProps> = ({ theme = 'light' }) => {
+  const styles = {
+    itemBg: theme === 'dark' ? '#001628' : '#fafafa',
+    itemActiveBg: theme === 'dark' ? '#1677ff' : '#fff',
+    itemColor: theme === 'dark' ? '#ffffffa6' : '#999',
+    itemHoverColor: theme === 'dark' ? '#fff' : '#4096ff',
+    itemActiveColor: theme === 'dark' ? '#fff' : '#1677ff',
+    iconBg: theme === 'dark' ? '#042c4d' : '#fff',
+    iconColor: theme === 'dark' ? '#ffffffa6' : '#999',
+    hoverIconColor: theme === 'dark' ? '#fff' : '#000',
+  };
   const { tabs, active } = useKeepAliveContext();
   const { close, closeAll } = useKeepAlive();
 
@@ -18,11 +32,19 @@ export const RouterTabs: FC = () => {
   const [leftDisabled, setLeftDisabled] = useState(false);
   const [rightDisabled, setRightDisabled] = useState(false);
   const size = useSize(document.querySelector('body'));
-  const [filtetTabs, setFilterTabs] = useState([]);
+  const [filterTabs, setFilterTabs] = useState([]);
 
   useEffect(() => {
-    setFilterTabs(tabs.filter((item) => item.label));
-  }, [tabs]);
+    setFilterTabs(
+      tabs
+        .filter((item) => item.label)
+        .map((item) => ({
+          ...item,
+          iconColor: styles.iconColor,
+          itemColor: item.key === active ? styles.itemActiveColor : styles.itemColor,
+        })),
+    );
+  }, [tabs, theme, active]);
 
   useEffect(() => {
     const { offsetWidth, scrollWidth } = tabsOuterRef.current;
@@ -91,10 +113,10 @@ export const RouterTabs: FC = () => {
   };
 
   return (
-    <Flex className="router-tab-box">
+    <Flex className="router-tab-box" style={{ background: styles.itemBg }}>
       <LeftOutlined
         className="router-tab-icon"
-        style={{ cursor: leftDisabled ? 'not-allowed' : 'pointer' }}
+        style={{ cursor: leftDisabled ? 'not-allowed' : 'pointer', color: styles.iconColor, background: styles.iconBg }}
         onClick={() => {
           prev();
         }}
@@ -129,7 +151,7 @@ export const RouterTabs: FC = () => {
           }}
         >
           {/* 如果没有label不应该显示tab */}
-          {filtetTabs.map((item, index) => {
+          {filterTabs.map((item, index) => {
             return (
               <div style={{ display: 'inline-block' }} key={item.key}>
                 {index !== 0 && <Divider type="vertical" className="tab-item-divider" />}
@@ -139,19 +161,53 @@ export const RouterTabs: FC = () => {
                     navigate(item.key);
                   }}
                   style={{
-                    backgroundColor: item.key === active && '#fff',
-                    paddingRight: filtetTabs.length === 1 && 20,
+                    backgroundColor: item.key === active ? styles.itemActiveBg : styles.itemBg,
+                    paddingRight: filterTabs.length === 1 && 20,
+                  }}
+                  onMouseEnter={(e: any) => {
+                    setFilterTabs(
+                      filterTabs.map((tab) => {
+                        if (tab.key === active) {
+                          return tab;
+                        } else {
+                          return { ...tab, itemColor: tab.key === item.key ? styles.itemHoverColor : styles.itemColor };
+                        }
+                      }),
+                    );
+                  }}
+                  onMouseLeave={(e: any) => {
+                    setFilterTabs(
+                      filterTabs.map((tab) => {
+                        if (tab.key === active) {
+                          return tab;
+                        } else {
+                          return { ...tab, itemColor: styles.itemColor };
+                        }
+                      }),
+                    );
                   }}
                 >
-                  <span className="tab-item-label" style={{ color: item.key === active && '#1677ff' }}>
+                  <span className="tab-item-label" style={{ color: item.itemColor }}>
                     {item.label}
                   </span>
-                  {filtetTabs.length > 1 && (
+                  {filterTabs.length > 1 && (
                     <CloseOutlined
                       className="tab-item-icon"
+                      style={{ color: item.iconColor }}
                       onClick={(e: any) => {
                         e.stopPropagation();
                         close(item.key);
+                      }}
+                      onMouseEnter={(e: any) => {
+                        setFilterTabs(
+                          filterTabs.map((tab) => ({
+                            ...tab,
+                            iconColor: tab.key === item.key ? styles.hoverIconColor : styles.iconColor,
+                          })),
+                        );
+                      }}
+                      onMouseLeave={(e: any) => {
+                        setFilterTabs(filterTabs.map((tab) => ({ ...tab, iconColor: styles.iconColor })));
                       }}
                     />
                   )}
@@ -163,30 +219,37 @@ export const RouterTabs: FC = () => {
       </div>
       <RightOutlined
         className="router-tab-icon"
-        style={{ cursor: rightDisabled ? 'not-allowed' : 'pointer' }}
+        style={{
+          cursor: rightDisabled ? 'not-allowed' : 'pointer',
+          color: styles.iconColor,
+          background: styles.iconBg,
+        }}
         onClick={() => {
           next();
         }}
       />
-      <CloseCircleOutlined
-        style={{
-          flexBasis: 20,
-          padding: '0 8px',
-          background: '#fff',
-          zIndex: 2,
-        }}
-        onClick={() => {
-          Modal.confirm({
-            title: '你确定要关闭其他标签吗?',
-            content: '关闭的标签页将不会被缓存',
-            cancelText: '取消',
-            okText: '确定',
-            onOk() {
-              closeAll();
-            },
-          });
-        }}
-      />
+      {filterTabs.length > 1 && (
+        <CloseCircleOutlined
+          style={{
+            flexBasis: 20,
+            padding: '0 8px',
+            background: styles.iconBg,
+            color: styles.iconColor,
+            zIndex: 2,
+          }}
+          onClick={() => {
+            Modal.confirm({
+              title: '你确定要关闭其他标签吗?',
+              content: '关闭的标签页将不会被缓存',
+              cancelText: '取消',
+              okText: '确定',
+              onOk() {
+                closeAll();
+              },
+            });
+          }}
+        />
+      )}
     </Flex>
   );
 };

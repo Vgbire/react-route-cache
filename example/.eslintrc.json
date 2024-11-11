@@ -15,5 +15,10 @@
   ],
   "rules": {
     "react-hooks/exhaustive-deps": "off"
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2024,
+    "sourceType": "module"
   }
 }
