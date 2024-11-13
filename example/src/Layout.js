@@ -50,9 +50,7 @@ export default function Layout() {
       <div style={{ flex: 1 }}>
         <KeepAliveScope>
           <RouterTabs theme="light" />
-          <div style={{ padding: 20 }}>
-            <KeepAlive>{outlet}</KeepAlive>
-          </div>
+          <KeepAlive style={{ padding: 20 }}>{outlet}</KeepAlive>
         </KeepAliveScope>
       </div>
     </Flex>

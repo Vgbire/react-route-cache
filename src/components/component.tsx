@@ -12,7 +12,7 @@ export const Component: FC<ComponentProps> = ({ show, children, to }) => {
 
   useEffect(() => {
     if (show) {
-      to.current?.replaceChildren(div);
+      to.current?.replaceChildren(div.firstChild.cloneNode(true));
     }
   }, [show, to, div]);
 
