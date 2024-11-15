@@ -12,10 +12,13 @@ export const Component: FC<ComponentProps> = ({ show, children, to, style }) => 
   const [div] = useState(() => document.createElement('div'));
 
   useEffect(() => {
+    // 清空原来的style内联样式
+    div.style.cssText = '';
     Object.keys(style || {}).forEach((key) => {
       div.style[key] = style[key];
     });
   }, [style]);
+
   useEffect(() => {
     if (show) {
       to.current?.replaceChildren(div);

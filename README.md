@@ -93,14 +93,12 @@ export const Demo = () => {
 };
 ```
 
-## 其他 API
+## KeepAliveScope Props
 
 mode
 
 - 默认匹配路由 path，path 变化则会新增一个 tab，也就是如果查询参数变化不会新增一个 tab 缓存组件
 - 如果希望查询参数变化也会新增一个 tab 需要将 mode 改为 search
-
-theme: 主题颜色，`dark | light`，默认为light
 
 nameKey：如果路由 name 已被占用，可以通过该字段获取 handle 下其他字段的信息作为 tab 的 title
 
@@ -111,6 +109,28 @@ interface KeepAliveScopeProps {
 }
 <KeepAliveScope mode="search" nameKey="tabName" />
 ```
+
+## RouterTabs & KeepAlive Props
+
+### RouterTabs
+
+- theme: 主题颜色，`dark | light`，默认为light
+
+### KeepAlive
+
+- exclude：排除不需要缓存的路由组件，支持正则表达式
+- include：只缓存需要缓存的路由组件，支持正则表达式
+- max：缓存的组件数量，默认 10
+- styles：自定义样式
+
+```javascript
+styles：{
+  wrapper?: CSSProperties; // 包裹元素的style
+  content?: CSSProperties; // 内容元素的style
+}
+```
+
+## 其他 API
 
 close、closeAll、closeNavigator
 
@@ -136,4 +156,6 @@ import { useKeepAlive } from '../hooks/use-keep-alive';
 npm run build
 // 构建后运行example调试
 npm run start -w example
+// 发布
+npm publish
 ```

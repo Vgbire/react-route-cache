@@ -1,6 +1,6 @@
 {
   "name": "react-route-cache",
-  "version": "1.5.5",
+  "version": "1.5.6",
   "description": "keep-alive cache for react router",
   "keywords": [
     "react",
