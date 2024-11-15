@@ -3,15 +3,10 @@ import { Menu } from 'antd';
 import { useNavigate, useOutlet } from 'react-router-dom';
 import { Flex } from 'antd';
 import { KeepAlive, KeepAliveScope, RouterTabs } from 'react-route-cache';
-import { useEffect } from 'react';
 
 export default function Layout() {
   const navigate = useNavigate();
   const outlet = useOutlet();
-
-  useEffect(() => {
-    navigate('/customer');
-  }, []);
 
   const items = [
     {
@@ -50,7 +45,9 @@ export default function Layout() {
       <div style={{ flex: 1 }}>
         <KeepAliveScope>
           <RouterTabs theme="light" />
-          <KeepAlive style={{ padding: 20 }}>{outlet}</KeepAlive>
+          <KeepAlive style={{ padding: 20 }} styles={{ wrapper: { color: 'red' }, content: { color: 'red' } }}>
+            {outlet}
+          </KeepAlive>
         </KeepAliveScope>
       </div>
     </Flex>

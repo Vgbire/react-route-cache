@@ -1,40 +1,44 @@
-import { createBrowserRouter } from "react-router-dom";
-import Layout from "./Layout";
-import Customer from "./views/Customer";
-import User from "./views/User";
-import Tenant from "./views/Tenant";
-import Management from "./views/Management";
+import { createBrowserRouter, Navigate } from 'react-router-dom';
+import Layout from './Layout';
+import Customer from './views/Customer';
+import User from './views/User';
+import Tenant from './views/Tenant';
+import Management from './views/Management';
 export const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Layout />,
     children: [
       {
-        path: "customer",
+        index: true,
+        element: <Navigate to="/customer" />,
+      },
+      {
+        path: 'customer',
         element: <Customer />,
         handle: {
-          name: "客户",
+          name: '客户',
         },
       },
       {
-        path: "user",
+        path: 'user',
         element: <User />,
         handle: {
-          name: "用户",
+          name: '用户',
         },
       },
       {
-        path: "tenant",
+        path: 'tenant',
         element: <Tenant />,
         handle: {
-          name: "租户",
+          name: '租户',
         },
       },
       {
-        path: "management",
+        path: 'management',
         element: <Management />,
         handle: {
-          name: "管理",
+          name: '管理',
         },
       },
     ],

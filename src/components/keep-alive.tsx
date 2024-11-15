@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { CSSProperties, FC } from 'react';
 import { useEffect, useRef, ReactNode } from 'react';
 import { Component } from './component';
 import { useKeepAliveContext } from '../context';
@@ -9,12 +9,25 @@ interface KeepAliveProps {
   exclude?: Array<string>;
   max?: number;
   children?: ReactNode;
-  style?: React.CSSProperties;
+  style?: CSSProperties;
   className?: string;
+  styles?: {
+    wrapper?: CSSProperties;
+    content?: CSSProperties;
+  };
   [key: string]: any;
 }
 
-export const KeepAlive: FC<KeepAliveProps> = ({ children, exclude, include, max = 10, style, className, ...rest }) => {
+export const KeepAlive: FC<KeepAliveProps> = ({
+  children,
+  exclude,
+  include,
+  max = 10,
+  style,
+  className,
+  styles,
+  ...rest
+}) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { active, tabs, caches, setCaches } = useKeepAliveContext();
   const matches: any = useMatches();
@@ -54,12 +67,11 @@ export const KeepAlive: FC<KeepAliveProps> = ({ children, exclude, include, max 
 
   return (
     <>
-      {cache && <div ref={containerRef} style={style} className={className} {...rest} />}
+      {cache && <div ref={containerRef} style={{ ...style, ...styles?.wrapper }} className={className} {...rest} />}
       {!cache && children}
       {caches.map(({ name, ele }) => {
-        // return <div style={{ display: active === name ? 'block' : 'none' }}>{ele}</div>;
         return (
-          <Component key={name} show={name === active} to={containerRef}>
+          <Component key={name} show={name === active} to={containerRef} style={styles?.content}>
             {ele}
           </Component>
         );

@@ -4,6 +4,7 @@ import { useActivated, useDeactivated } from 'react-route-cache';
 
 export default function Customer() {
   const [loading, setLoading] = useState(true);
+  const [count, setCount] = useState(0);
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
@@ -21,6 +22,13 @@ export default function Customer() {
   return (
     <Spin spinning={loading}>
       <div>客户页面 - 首次加载有Loading，切换无Loading</div>
+      <button
+        onClick={() => {
+          setCount(count + 1);
+        }}
+      >
+        Count: {count}
+      </button>
     </Spin>
   );
 }
