@@ -1,12 +1,9 @@
 .router-tab-box {
-  // background-color: #fafafa;
-  // color: #999;
   cursor: pointer;
   .router-tab-icon {
     flex-basis: 20px;
     padding-left: 8px;
     font-size: 12px;
-    // background: #fff;
     z-index: 2;
     box-sizing: content-box;
   }
@@ -19,21 +16,11 @@
 .tab-item {
   display: inline-block;
   padding: 0 20px;
-  height: 40px;
-  line-height: 40px;
-  font-size: 14px;
   user-select: none;
-  &:hover {
-    // color: #4096ff;
-  }
   .tab-item-icon {
-    // color: #999;
     margin-left: 8px;
     padding: 2px;
     transition: color 0.3s;
     font-size: 12px;
-    &:hover {
-      // color: #000;
-    }
   }
 }
