@@ -114,7 +114,8 @@ interface KeepAliveScopeProps {
 
 ### RouterTabs
 
-- theme: 主题颜色，`dark | light`，默认为light
+- theme: 主题颜色，提供 light 和 dark 两种主题色，默认为light
+- size: 大小，提供 large middle 和 small 三种大小，默认为 middle
 
 ### KeepAlive
 

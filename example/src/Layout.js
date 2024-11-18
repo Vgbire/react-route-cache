@@ -40,14 +40,12 @@ export default function Layout() {
         defaultOpenKeys={['sub1']}
         mode="inline"
         items={items}
-        theme="light"
+        theme="dark"
       />
       <div style={{ flex: 1 }}>
         <KeepAliveScope>
-          <RouterTabs theme="light" />
-          <KeepAlive style={{ padding: 20 }} styles={{ wrapper: { color: 'red' }, content: { color: 'red' } }}>
-            {outlet}
-          </KeepAlive>
+          <RouterTabs theme="dark" size="small" />
+          <KeepAlive styles={{ wrapper: { padding: 20 } }}>{outlet}</KeepAlive>
         </KeepAliveScope>
       </div>
     </Flex>

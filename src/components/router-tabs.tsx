@@ -9,9 +9,11 @@ import '../index.scss';
 
 interface RouterTabsProps {
   theme?: 'light' | 'dark';
+  size?: 'small' | 'middle' | 'large';
 }
 
-export const RouterTabs: FC<RouterTabsProps> = ({ theme = 'light' }) => {
+export const RouterTabs: FC<RouterTabsProps> = ({ theme = 'light', size = 'middle' }) => {
+  // 主题style
   const styles = {
     itemBg: theme === 'dark' ? '#001628' : '#fafafa',
     itemActiveBg: theme === 'dark' ? '#1677ff' : '#fff',
@@ -22,6 +24,11 @@ export const RouterTabs: FC<RouterTabsProps> = ({ theme = 'light' }) => {
     iconColor: theme === 'dark' ? '#ffffffa6' : '#999',
     hoverIconColor: theme === 'dark' ? '#fff' : '#000',
   };
+  // 尺寸style
+  const sizeStyle = {
+    fontSize: size === 'large' ? '16px' : '14px',
+    padding: size === 'small' ? '6px 16px' : '8px 16px',
+  };
   const { tabs, active } = useKeepAliveContext();
   const { close, closeAll } = useKeepAlive();
 
@@ -31,7 +38,7 @@ export const RouterTabs: FC<RouterTabsProps> = ({ theme = 'light' }) => {
   const tabsInnerRef = useRef<any>();
   const [leftDisabled, setLeftDisabled] = useState(false);
   const [rightDisabled, setRightDisabled] = useState(false);
-  const size = useSize(document.querySelector('body'));
+  const windowSize = useSize(document.querySelector('body'));
   const [filterTabs, setFilterTabs] = useState([]);
 
   useEffect(() => {
@@ -53,7 +60,7 @@ export const RouterTabs: FC<RouterTabsProps> = ({ theme = 'light' }) => {
     if (offsetWidth === scrollWidth) {
       setLeft(0);
     }
-  }, [tabs, left, size]);
+  }, [tabs, left, windowSize]);
 
   const prev = (offset?: number) => {
     if (leftDisabled) return;
@@ -162,6 +169,8 @@ export const RouterTabs: FC<RouterTabsProps> = ({ theme = 'light' }) => {
                   }}
                   style={{
                     backgroundColor: item.key === active ? styles.itemActiveBg : styles.itemBg,
+                    padding: sizeStyle.padding,
+                    fontSize: sizeStyle.fontSize,
                     paddingRight: filterTabs.length === 1 && 20,
                   }}
                   onMouseEnter={(e: any) => {
