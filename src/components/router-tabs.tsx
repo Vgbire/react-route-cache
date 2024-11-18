@@ -171,7 +171,6 @@ export const RouterTabs: FC<RouterTabsProps> = ({ theme = 'light', size = 'middl
                     backgroundColor: item.key === active ? styles.itemActiveBg : styles.itemBg,
                     padding: sizeStyle.padding,
                     fontSize: sizeStyle.fontSize,
-                    paddingRight: filterTabs.length === 1 && 20,
                   }}
                   onMouseEnter={(e: any) => {
                     setFilterTabs(
