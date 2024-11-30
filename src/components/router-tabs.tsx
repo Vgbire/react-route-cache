@@ -39,17 +39,15 @@ export const RouterTabs: FC<RouterTabsProps> = ({ theme = 'light', size = 'middl
   const [leftDisabled, setLeftDisabled] = useState(false);
   const [rightDisabled, setRightDisabled] = useState(false);
   const windowSize = useSize(document.querySelector('body'));
-  const [filterTabs, setFilterTabs] = useState([]);
+  const [routerTabs, setRouterTabs] = useState([]);
 
   useEffect(() => {
-    setFilterTabs(
-      tabs
-        .filter((item) => item.label)
-        .map((item) => ({
-          ...item,
-          iconColor: styles.iconColor,
-          itemColor: item.key === active ? styles.itemActiveColor : styles.itemColor,
-        })),
+    setRouterTabs(
+      tabs.map((item) => ({
+        ...item,
+        iconColor: styles.iconColor,
+        itemColor: item.key === active ? styles.itemActiveColor : styles.itemColor,
+      })),
     );
   }, [tabs, theme, active]);
 
@@ -158,7 +156,7 @@ export const RouterTabs: FC<RouterTabsProps> = ({ theme = 'light', size = 'middl
           }}
         >
           {/* 如果没有label不应该显示tab */}
-          {filterTabs.map((item, index) => {
+          {routerTabs.map((item, index) => {
             return (
               <div style={{ display: 'inline-block' }} key={item.key}>
                 {index !== 0 && <Divider type="vertical" className="tab-item-divider" />}
@@ -173,8 +171,8 @@ export const RouterTabs: FC<RouterTabsProps> = ({ theme = 'light', size = 'middl
                     fontSize: sizeStyle.fontSize,
                   }}
                   onMouseEnter={(e: any) => {
-                    setFilterTabs(
-                      filterTabs.map((tab) => {
+                    setRouterTabs(
+                      routerTabs.map((tab) => {
                         if (tab.key === active) {
                           return tab;
                         } else {
@@ -184,8 +182,8 @@ export const RouterTabs: FC<RouterTabsProps> = ({ theme = 'light', size = 'middl
                     );
                   }}
                   onMouseLeave={(e: any) => {
-                    setFilterTabs(
-                      filterTabs.map((tab) => {
+                    setRouterTabs(
+                      routerTabs.map((tab) => {
                         if (tab.key === active) {
                           return tab;
                         } else {
@@ -198,7 +196,7 @@ export const RouterTabs: FC<RouterTabsProps> = ({ theme = 'light', size = 'middl
                   <span className="tab-item-label" style={{ color: item.itemColor }}>
                     {item.label}
                   </span>
-                  {filterTabs.length > 1 && (
+                  {routerTabs.length > 1 && (
                     <CloseOutlined
                       className="tab-item-icon"
                       style={{ color: item.iconColor }}
@@ -207,15 +205,15 @@ export const RouterTabs: FC<RouterTabsProps> = ({ theme = 'light', size = 'middl
                         close(item.key);
                       }}
                       onMouseEnter={(e: any) => {
-                        setFilterTabs(
-                          filterTabs.map((tab) => ({
+                        setRouterTabs(
+                          routerTabs.map((tab) => ({
                             ...tab,
                             iconColor: tab.key === item.key ? styles.hoverIconColor : styles.iconColor,
                           })),
                         );
                       }}
                       onMouseLeave={(e: any) => {
-                        setFilterTabs(filterTabs.map((tab) => ({ ...tab, iconColor: styles.iconColor })));
+                        setRouterTabs(routerTabs.map((tab) => ({ ...tab, iconColor: styles.iconColor })));
                       }}
                     />
                   )}
@@ -236,7 +234,7 @@ export const RouterTabs: FC<RouterTabsProps> = ({ theme = 'light', size = 'middl
           next();
         }}
       />
-      {filterTabs.length > 1 && (
+      {routerTabs.length > 1 && (
         <CloseCircleOutlined
           style={{
             flexBasis: 20,

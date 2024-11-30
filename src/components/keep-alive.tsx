@@ -29,9 +29,11 @@ export const KeepAlive: FC<KeepAliveProps> = ({
   ...rest
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { active, tabs, caches, setCaches } = useKeepAliveContext();
+  const { active, tabs, caches, setCaches, nameKey } = useKeepAliveContext();
   const matches: any = useMatches();
-  const cache = matches[matches.length - 1].handle?.cache ?? true;
+  // 必须要有name属性才可以缓存，cache设置为false才不缓存
+  const handle = matches[matches.length - 1].handle;
+  const cache = handle?.[nameKey] && (handle?.cache ?? true);
 
   useEffect(() => {
     if (!active || !cache) {
