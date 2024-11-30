@@ -46,7 +46,7 @@ export const KeepAlive: FC<KeepAliveProps> = ({
         ele: children,
       });
       // 缓存超过上限的
-      if (caches.length >= max) {
+      if (cacheList.length > max) {
         cacheList.shift();
       }
     }
@@ -71,7 +71,7 @@ export const KeepAlive: FC<KeepAliveProps> = ({
       {!cache && children}
       {caches.map(({ name, ele }) => {
         return (
-          <Component key={name} show={name === active} to={containerRef} style={styles?.content}>
+          <Component key={name} name={name} show={name === active} to={containerRef} style={styles?.content}>
             {ele}
           </Component>
         );
