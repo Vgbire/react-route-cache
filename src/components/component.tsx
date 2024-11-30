@@ -2,13 +2,14 @@ import React, { useEffect, ReactNode, RefObject, useState, FC } from 'react';
 import { createPortal } from 'react-dom';
 
 interface ComponentProps {
+  name: string;
   show: boolean;
   to: RefObject<HTMLDivElement>;
   children?: ReactNode;
   style?: React.CSSProperties;
 }
 
-export const Component: FC<ComponentProps> = ({ show, children, to, style }) => {
+export const Component: FC<ComponentProps> = ({ name, show, children, to, style }) => {
   const [div] = useState(() => document.createElement('div'));
 
   useEffect(() => {
@@ -25,5 +26,5 @@ export const Component: FC<ComponentProps> = ({ show, children, to, style }) => 
     }
   }, [show]);
 
-  return createPortal(children, div);
+  return createPortal(children, div, name);
 };

@@ -29,9 +29,11 @@ export const KeepAlive: FC<KeepAliveProps> = ({
   ...rest
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { active, tabs, caches, setCaches } = useKeepAliveContext();
+  const { active, tabs, caches, setCaches, nameKey } = useKeepAliveContext();
   const matches: any = useMatches();
-  const cache = matches[matches.length - 1].handle?.cache ?? true;
+  // 必须要有name属性才可以缓存，cache设置为false才不缓存
+  const handle = matches[matches.length - 1].handle;
+  const cache = handle?.[nameKey] && (handle?.cache ?? true);
 
   useEffect(() => {
     if (!active || !cache) {
@@ -46,7 +48,7 @@ export const KeepAlive: FC<KeepAliveProps> = ({
         ele: children,
       });
       // 缓存超过上限的
-      if (caches.length >= max) {
+      if (cacheList.length > max) {
         cacheList.shift();
       }
     }
@@ -71,7 +73,7 @@ export const KeepAlive: FC<KeepAliveProps> = ({
       {!cache && children}
       {caches.map(({ name, ele }) => {
         return (
-          <Component key={name} show={name === active} to={containerRef} style={styles?.content}>
+          <Component key={name} name={name} show={name === active} to={containerRef} style={styles?.content}>
             {ele}
           </Component>
         );

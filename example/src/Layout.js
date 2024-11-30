@@ -44,10 +44,10 @@ export default function Layout() {
       />
       <div style={{ flex: 1 }}>
         <KeepAliveScope>
-          <RouterTabs theme="dark" size="small" />
-          <RouterTabs theme="dark" size="middle" />
-          <RouterTabs theme="dark" size="large" />
-          <KeepAlive styles={{ wrapper: { padding: 20 } }}>{outlet}</KeepAlive>
+          <RouterTabs theme="dark" />
+          <KeepAlive style={{ padding: 20 }} max={5} size="small">
+            {outlet}
+          </KeepAlive>
         </KeepAliveScope>
       </div>
     </Flex>

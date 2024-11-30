@@ -15,6 +15,7 @@ interface KeepAliveContext {
   setTabs?: (tabs: TabsItem[]) => void;
   caches?: CachesItem[];
   setCaches?: (caches: CachesItem[]) => void;
+  nameKey?: string;
 }
 
 const KeepAliveContext = createContext<KeepAliveContext>({ activateds: {}, deactivateds: {} });
@@ -65,13 +66,14 @@ export const KeepAliveScope: FC<KeepAliveScopeProps> = ({ mode = 'path', nameKey
       });
     }
 
+    const label = matches[matches.length - 1].handle?.[nameKey];
     const existTab = tabs.find((item) => item.key === key);
-    if (!existTab) {
+    if (!existTab && label) {
       setTabs([
         ...tabs,
         {
           key: key,
-          label: matches[matches.length - 1].handle?.[nameKey],
+          label,
         },
       ]);
     }
@@ -90,6 +92,7 @@ export const KeepAliveScope: FC<KeepAliveScopeProps> = ({ mode = 'path', nameKey
         setTabs,
         caches,
         setCaches,
+        nameKey,
       }}
     >
       {children}
