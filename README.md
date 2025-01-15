@@ -1,5 +1,6 @@
 ## 功能
 
+- 支持react-router-dom 6.0+
 - 标签式路由组件缓存，开箱即用
 - 每一个新路由切换都会在页面内新增一个标签tab，缓存其路由组件，切换路由或者tab标签组件不会重新加载
 - 支持配置路由组件是否需要缓存
@@ -97,15 +98,22 @@ export const Demo = () => {
 
 mode
 
-- 默认匹配路由 path，path 变化则会新增一个 tab，也就是如果查询参数变化不会新增一个 tab 缓存组件
+- path | search，默认为path
+- 默认匹配路由 path 决定，path 变化则会新增一个 tab，也就是如果查询参数变化不会新增一个 tab 缓存组件
 - 如果希望查询参数变化也会新增一个 tab 需要将 mode 改为 search
 
 nameKey：如果路由 name 已被占用，可以通过该字段获取 handle 下其他字段的信息作为 tab 的 title
+
+tabMaxMode
+
+- retain | remove，默认为retain
+- 缓存的 tab 数量超过 max 时，是否删除最开始缓存的 tab。remove表示会删除。retain会保留tab，但点击tab会重新加载组件
 
 ```js
 interface KeepAliveScopeProps {
   mode?: "path" | "search";
   nameKey?: string;
+  tabMaxMode: "retain" | "remove";
 }
 <KeepAliveScope mode="search" nameKey="tabName" />
 ```

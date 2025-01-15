@@ -16,6 +16,7 @@ interface KeepAliveContext {
   caches?: CachesItem[];
   setCaches?: (caches: CachesItem[]) => void;
   nameKey?: string;
+  tabMaxMode?: 'retain' | 'remove';
 }
 
 const KeepAliveContext = createContext<KeepAliveContext>({ activateds: {}, deactivateds: {} });
@@ -25,9 +26,15 @@ KeepAliveContext.displayName = 'KeepAliveContext';
 interface KeepAliveScopeProps {
   mode?: 'path' | 'search';
   nameKey?: string;
+  tabMaxMode: 'retain' | 'remove';
   children: ReactNode;
 }
-export const KeepAliveScope: FC<KeepAliveScopeProps> = ({ mode = 'path', nameKey = 'name', children }) => {
+export const KeepAliveScope: FC<KeepAliveScopeProps> = ({
+  mode = 'path',
+  nameKey = 'name',
+  tabMaxMode = 'retain',
+  children,
+}) => {
   const { pathname, search } = useLocation();
   const matches: any = useMatches();
 
@@ -93,6 +100,7 @@ export const KeepAliveScope: FC<KeepAliveScopeProps> = ({ mode = 'path', nameKey
         caches,
         setCaches,
         nameKey,
+        tabMaxMode,
       }}
     >
       {children}

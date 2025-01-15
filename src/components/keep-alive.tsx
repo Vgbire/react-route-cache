@@ -3,6 +3,7 @@ import { useEffect, useRef, ReactNode } from 'react';
 import { Component } from './component';
 import { useKeepAliveContext } from '../context';
 import { useMatches } from 'react-router-dom';
+import { useKeepAlive } from '../hooks/use-keep-alive';
 
 interface KeepAliveProps {
   include?: Array<string>;
@@ -29,7 +30,8 @@ export const KeepAlive: FC<KeepAliveProps> = ({
   ...rest
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { active, tabs, caches, setCaches, nameKey } = useKeepAliveContext();
+  const { active, tabs, caches, setCaches, nameKey, tabMaxMode } = useKeepAliveContext();
+  const { close } = useKeepAlive();
   const matches: any = useMatches();
   // 必须要有name属性才可以缓存，cache设置为false才不缓存
   const handle = matches[matches.length - 1].handle;
@@ -49,7 +51,11 @@ export const KeepAlive: FC<KeepAliveProps> = ({
       });
       // 缓存超过上限的
       if (cacheList.length > max) {
-        cacheList.shift();
+        const remove = cacheList.shift();
+        console.log(remove);
+        if (tabMaxMode === 'remove') {
+          close(remove?.name);
+        }
       }
     }
     cacheList = cacheList.filter((item) => tabs.some((tab) => tab.key === item.name));

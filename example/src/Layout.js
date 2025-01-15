@@ -43,9 +43,9 @@ export default function Layout() {
         theme="dark"
       />
       <div style={{ flex: 1 }}>
-        <KeepAliveScope>
+        <KeepAliveScope tabMaxMode="remove">
           <RouterTabs theme="dark" />
-          <KeepAlive style={{ padding: 20 }} max={5} size="small">
+          <KeepAlive style={{ padding: 20 }} max={3} size="small">
             {outlet}
           </KeepAlive>
         </KeepAliveScope>
