@@ -10,7 +10,6 @@ export const useActivated = (callback: LifeCircle, deps: any[] = []) => {
   const id = useId();
   useEffect(() => {
     callback.id = id;
-    callback();
     if (!activateds[pathname]) {
       activateds[pathname] = [];
     }

@@ -13,6 +13,9 @@ export default function Customer() {
 
   useActivated(() => {
     console.log('客户页面进来了');
+    return () => {
+      console.log('activated返回的方法会在Deactivated的时候执行');
+    };
   }, []);
 
   useDeactivated(() => {

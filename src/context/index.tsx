@@ -44,19 +44,8 @@ export const KeepAliveScope: FC<KeepAliveScopeProps> = ({
   const [tabs, setTabs] = useState<TabsItem[]>([]);
   const [caches, setCaches] = useState<CachesItem[]>([]);
 
-  useEffect(() => {
+  const dispatchActivateds = () => {
     const key = mode === 'path' ? pathname : pathname + search;
-    // 调用deactivateds方法
-    setActive((active) => {
-      if (deactivateds[active]?.length) {
-        deactivateds[active] = deactivateds[active].filter((item) => {
-          item();
-          return !item.__shouldRemove;
-        });
-        setDeactivateds({ ...deactivateds });
-      }
-      return key;
-    });
 
     // 调用activateds
     if (activateds[key]?.length) {
@@ -72,6 +61,23 @@ export const KeepAliveScope: FC<KeepAliveScopeProps> = ({
         }
       });
     }
+  };
+
+  useEffect(() => {
+    const key = mode === 'path' ? pathname : pathname + search;
+    // 调用deactivateds方法
+    setActive((active) => {
+      if (deactivateds[active]?.length) {
+        deactivateds[active] = deactivateds[active].filter((item) => {
+          item();
+          return !item.__shouldRemove;
+        });
+        setDeactivateds({ ...deactivateds });
+      }
+      return key;
+    });
+
+    dispatchActivateds();
 
     const label = matches[matches.length - 1].handle?.[nameKey];
     const existTab = tabs.find((item) => item.key === key);
@@ -85,6 +91,12 @@ export const KeepAliveScope: FC<KeepAliveScopeProps> = ({
       ]);
     }
   }, [pathname, search, mode]);
+
+  useEffect(() => {
+    const key = mode === 'path' ? pathname : pathname + search;
+
+    dispatchActivateds();
+  }, [activateds]);
 
   return (
     <KeepAliveContext.Provider
