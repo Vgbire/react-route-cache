@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      example:
-        specifier: workspace:^
-        version: link:example
       react-transition-group:
         specifier: ^4.4.5
         version: 4.4.5(react-dom@18.3.1)(react@18.3.1)

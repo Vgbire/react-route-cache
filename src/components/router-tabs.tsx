@@ -5,7 +5,8 @@ import { useSize } from 'ahooks';
 import { Divider, Flex, Modal } from 'antd';
 import { useKeepAliveContext } from '../context';
 import { useKeepAlive } from '../hooks/use-keep-alive';
-import '../index.scss';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import './index.css';
 
 interface RouterTabsProps {
   theme?: 'light' | 'dark';
@@ -118,9 +119,8 @@ export const RouterTabs: FC<RouterTabsProps> = ({ theme = 'light', size = 'middl
   };
 
   return (
-    <Flex className="router-tab-box" style={{ background: styles.itemBg }}>
+    <Flex style={{ background: styles.itemBg }}>
       <LeftOutlined
-        className="router-tab-icon"
         style={{ cursor: leftDisabled ? 'not-allowed' : 'pointer', color: styles.iconColor, background: styles.iconBg }}
         onClick={() => {
           prev();
@@ -155,72 +155,78 @@ export const RouterTabs: FC<RouterTabsProps> = ({ theme = 'light', size = 'middl
             left,
           }}
         >
-          {/* 如果没有label不应该显示tab */}
-          {routerTabs.map((item, index) => {
-            return (
-              <div style={{ display: 'inline-block' }} key={item.key}>
-                {index !== 0 && <Divider type="vertical" className="tab-item-divider" />}
-                <div
-                  className="tab-item"
-                  onClick={() => {
-                    navigate(item.key);
-                  }}
-                  style={{
-                    backgroundColor: item.key === active ? styles.itemActiveBg : styles.itemBg,
-                    padding: sizeStyle.padding,
-                    fontSize: sizeStyle.fontSize,
-                  }}
-                  onMouseEnter={(e: any) => {
-                    setRouterTabs(
-                      routerTabs.map((tab) => {
-                        if (tab.key === active) {
-                          return tab;
-                        } else {
-                          return { ...tab, itemColor: tab.key === item.key ? styles.itemHoverColor : styles.itemColor };
-                        }
-                      }),
-                    );
-                  }}
-                  onMouseLeave={(e: any) => {
-                    setRouterTabs(
-                      routerTabs.map((tab) => {
-                        if (tab.key === active) {
-                          return tab;
-                        } else {
-                          return { ...tab, itemColor: styles.itemColor };
-                        }
-                      }),
-                    );
-                  }}
-                >
-                  <span className="tab-item-label" style={{ color: item.itemColor }}>
-                    {item.label}
-                  </span>
-                  {routerTabs.length > 1 && (
-                    <CloseOutlined
-                      className="tab-item-icon"
-                      style={{ color: item.iconColor }}
-                      onClick={(e: any) => {
-                        e.stopPropagation();
-                        close(item.key);
+          <TransitionGroup className="tab-list">
+            {/* 如果没有label不应该显示tab */}
+            {routerTabs.map((item, index) => {
+              return (
+                <CSSTransition timeout={300} classNames="fade" key={item.key}>
+                  <div style={{ display: 'inline-block' }}>
+                    {index !== 0 && <Divider type="vertical" />}
+                    <div
+                      onClick={() => {
+                        navigate(item.key);
+                      }}
+                      style={{
+                        backgroundColor: item.key === active ? styles.itemActiveBg : styles.itemBg,
+                        padding: sizeStyle.padding,
+                        fontSize: sizeStyle.fontSize,
+                        display: 'inline-block',
                       }}
                       onMouseEnter={(e: any) => {
                         setRouterTabs(
-                          routerTabs.map((tab) => ({
-                            ...tab,
-                            iconColor: tab.key === item.key ? styles.hoverIconColor : styles.iconColor,
-                          })),
+                          routerTabs.map((tab) => {
+                            if (tab.key === active) {
+                              return tab;
+                            } else {
+                              return {
+                                ...tab,
+                                itemColor: tab.key === item.key ? styles.itemHoverColor : styles.itemColor,
+                              };
+                            }
+                          }),
                         );
                       }}
                       onMouseLeave={(e: any) => {
-                        setRouterTabs(routerTabs.map((tab) => ({ ...tab, iconColor: styles.iconColor })));
+                        setRouterTabs(
+                          routerTabs.map((tab) => {
+                            if (tab.key === active) {
+                              return tab;
+                            } else {
+                              return { ...tab, itemColor: styles.itemColor };
+                            }
+                          }),
+                        );
                       }}
-                    />
-                  )}
-                </div>
-              </div>
-            );
-          })}
+                    >
+                      <span className="tab-item-label" style={{ color: item.itemColor }}>
+                        {item.label}
+                      </span>
+                      {routerTabs.length > 1 && (
+                        <CloseOutlined
+                          style={{ color: item.iconColor }}
+                          onClick={(e: any) => {
+                            e.stopPropagation();
+                            close(item.key);
+                          }}
+                          onMouseEnter={(e: any) => {
+                            setRouterTabs(
+                              routerTabs.map((tab) => ({
+                                ...tab,
+                                iconColor: tab.key === item.key ? styles.hoverIconColor : styles.iconColor,
+                              })),
+                            );
+                          }}
+                          onMouseLeave={(e: any) => {
+                            setRouterTabs(routerTabs.map((tab) => ({ ...tab, iconColor: styles.iconColor })));
+                          }}
+                        />
+                      )}
+                    </div>
+                  </div>
+                </CSSTransition>
+              );
+            })}
+          </TransitionGroup>
         </div>
       </div>
       <RightOutlined

@@ -43,7 +43,7 @@ export default function Layout() {
         theme="dark"
       />
       <div style={{ flex: 1 }}>
-        <KeepAliveScope>
+        <KeepAliveScope cachaMaxRemove>
           <RouterTabs theme="dark" />
           <KeepAlive style={{ padding: 20 }} max={3} size="small">
             {outlet}
