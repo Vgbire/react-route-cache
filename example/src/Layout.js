@@ -40,11 +40,10 @@ export default function Layout() {
         defaultOpenKeys={['sub1']}
         mode="inline"
         items={items}
-        theme="dark"
       />
       <div style={{ flex: 1 }}>
-        <KeepAliveScope cachaMaxRemove>
-          <RouterTabs theme="dark" />
+        <KeepAliveScope cacheMaxRemove>
+          <RouterTabs />
           <KeepAlive style={{ padding: 20 }} max={3} size="small">
             {outlet}
           </KeepAlive>

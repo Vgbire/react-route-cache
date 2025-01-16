@@ -104,7 +104,7 @@ mode
 
 nameKey：如果路由 name 已被占用，可以通过该字段获取 handle 下其他字段的信息作为 tab 的 title
 
-cachaMaxRemove
+cacheMaxRemove
 
 - boolean，默认false
 - 缓存的 tab 数量超过 max 时，是否删除最开始缓存的 tab。true表示会删除。false会保留tab，但点击tab会重新加载组件
@@ -113,7 +113,7 @@ cachaMaxRemove
 interface KeepAliveScopeProps {
   mode?: "path" | "search";
   nameKey?: string;
-  cachaMaxRemove: boolean;
+  cacheMaxRemove: boolean;
 }
 <KeepAliveScope mode="search" nameKey="tabName" />
 ```

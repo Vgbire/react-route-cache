@@ -30,7 +30,7 @@ export const KeepAlive: FC<KeepAliveProps> = ({
   ...rest
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { active, tabs, caches, setCaches, nameKey, cachaMaxRemove } = useKeepAliveContext();
+  const { active, tabs, caches, setCaches, nameKey, cacheMaxRemove } = useKeepAliveContext();
   const { close } = useKeepAlive();
   const matches: any = useMatches();
   // 必须要有name属性才可以缓存，cache设置为false才不缓存
@@ -53,7 +53,7 @@ export const KeepAlive: FC<KeepAliveProps> = ({
       if (cacheList.length > max) {
         const remove = cacheList.shift();
         console.log(remove);
-        if (cachaMaxRemove) {
+        if (cacheMaxRemove) {
           close(remove?.name);
         }
       }

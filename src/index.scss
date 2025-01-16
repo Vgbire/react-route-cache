@@ -1,0 +1,41 @@
+.router-tab-box {
+  cursor: pointer;
+  .router-tab-icon {
+    flex-basis: 20px;
+    padding-left: 8px;
+    font-size: 12px;
+    z-index: 2;
+    box-sizing: content-box;
+  }
+}
+.tab-item-divider {
+  margin: 0;
+  height: 20px;
+  background: #ddd;
+}
+.tab-item {
+  display: inline-block;
+  user-select: none;
+  .tab-item-icon {
+    margin-left: 8px;
+    padding: 2px;
+    transition: color 0.3s;
+    font-size: 12px;
+  }
+}
+
+.tab-list .fade-exit {
+  opacity: 1;
+  transform: scale(1);
+  left: -100%;
+}
+
+.tab-list .fade-exit-active {
+  opacity: 0;
+  transform: scale(0.9);
+  left: 0;
+  transition:
+    opacity 300ms,
+    left 300ms,
+    transform 300ms;
+}
