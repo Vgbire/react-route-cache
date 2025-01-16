@@ -26,7 +26,7 @@ KeepAliveContext.displayName = 'KeepAliveContext';
 interface KeepAliveScopeProps {
   mode?: 'path' | 'search';
   nameKey?: string;
-  cacheMaxRemove: boolean;
+  cacheMaxRemove?: boolean;
   children: ReactNode;
 }
 export const KeepAliveScope: FC<KeepAliveScopeProps> = ({
