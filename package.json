@@ -1,6 +1,6 @@
 {
-  "name": "react-route-cache",
-  "version": "1.6.9",
+  "name": "@Vgbire/react-keep-alive",
+  "version": "1.0.0",
   "description": "keep-alive cache for react router",
   "keywords": [
     "react",
@@ -17,9 +17,9 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
-  "homepage": "https://github.com/Vgbire/react-route-cache",
-  "repository": "https://github.com/Vgbire/react-route-cache",
-  "bugs": "https://github.com/Vgbire/react-route-cache/issues",
+  "homepage": "https://github.com/Vgbire/react-keep-alive",
+  "repository": "https://github.com/Vgbire/react-keep-alive",
+  "bugs": "https://github.com/Vgbire/react-keep-alive/issues",
   "files": [
     "dist",
     "lib",

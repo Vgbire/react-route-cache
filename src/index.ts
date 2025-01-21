@@ -1,5 +1,6 @@
 export { KeepAlive } from './components/keep-alive';
-export { RouterTabs } from './components/router-tabs';
+export { RouterTabs } from './components/router-keep-alive/router-tabs';
+export { RouterKeepAlive } from './components/router-keep-alive';
 
 export { KeepAliveScope } from './context/index';
 

@@ -1,11 +1,11 @@
 import React, { CSSProperties, FC } from 'react';
 import { useEffect, useRef, ReactNode } from 'react';
-import { Component } from './component';
-import { useKeepAliveContext } from '../context';
+import { Component } from '../component';
+import { useKeepAliveContext } from '../../context';
 import { useMatches } from 'react-router-dom';
-import { useKeepAlive } from '../hooks/use-keep-alive';
+import { useKeepAlive } from '../../hooks/use-keep-alive';
 
-interface KeepAliveProps {
+interface RouterKeepAliveProps {
   include?: Array<string>;
   exclude?: Array<string>;
   max?: number;
@@ -19,7 +19,7 @@ interface KeepAliveProps {
   [key: string]: any;
 }
 
-export const KeepAlive: FC<KeepAliveProps> = ({
+export const RouterKeepAlive: FC<RouterKeepAliveProps> = ({
   children,
   exclude,
   include,
@@ -52,7 +52,6 @@ export const KeepAlive: FC<KeepAliveProps> = ({
       // 缓存超过上限的
       if (cacheList.length > max) {
         const remove = cacheList.shift();
-        console.log(remove);
         if (cacheMaxRemove) {
           close(remove?.name);
         }

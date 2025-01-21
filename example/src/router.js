@@ -17,7 +17,7 @@ export const router = createBrowserRouter([
         path: 'customer',
         element: <Customer />,
         handle: {
-          name: '客户',
+          name: 'KeepAlive',
         },
       },
       {

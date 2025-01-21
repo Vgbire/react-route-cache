@@ -2,7 +2,7 @@ import './styles.css';
 import { Menu } from 'antd';
 import { useNavigate, useOutlet } from 'react-router-dom';
 import { Flex } from 'antd';
-import { KeepAlive, KeepAliveScope, RouterTabs } from 'react-route-cache';
+import { RouterKeepAlive, KeepAliveScope, RouterKeepAliveTabs } from 'react-route-cache';
 
 export default function Layout() {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ export default function Layout() {
   const items = [
     {
       key: 'customer',
-      label: '客户',
+      label: 'KeepAlive',
       url: '/customer',
     },
     {
@@ -36,17 +36,17 @@ export default function Layout() {
         onClick={({ item }) => {
           navigate(item.props.url);
         }}
-        style={{ width: 100, height: '100vh' }}
+        style={{ width: 120, height: '100vh' }}
         defaultOpenKeys={['sub1']}
         mode="inline"
         items={items}
       />
       <div style={{ flex: 1 }}>
         <KeepAliveScope cacheMaxRemove>
-          <RouterTabs />
-          <KeepAlive style={{ padding: 20 }} max={3} size="small">
+          <RouterKeepAliveTabs size="small" />
+          <RouterKeepAlive style={{ padding: 20 }} max={3}>
             {outlet}
-          </KeepAlive>
+          </RouterKeepAlive>
         </KeepAliveScope>
       </div>
     </Flex>
