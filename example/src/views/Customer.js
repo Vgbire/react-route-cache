@@ -1,6 +1,6 @@
 import { Spin, Tabs } from 'antd';
 import { useEffect, useState } from 'react';
-import { KeepAlive, useActivated, useDeactivated } from 'react-route-cache';
+import { KeepAlive, useActivated, useDeactivated } from '@Vgbire/react-keep-alive';
 import { KeepAliveDemo1 } from './keep-alive-demo/keep-alive-demo1';
 import { KeepAliveDemo2 } from './keep-alive-demo/keep-alive-demo2';
 import { KeepAliveDemo3 } from './keep-alive-demo/keep-alive-demo3';
@@ -45,7 +45,6 @@ export default function Customer() {
       <KeepAlive
         activeKey={activeKey}
         exclude={['1']}
-        include={['2']}
         items={[
           { key: '1', children: <KeepAliveDemo1 /> },
           { key: '2', children: <KeepAliveDemo2 /> },

@@ -1,88 +1,131 @@
-import React, { CSSProperties, FC } from 'react';
-import { useEffect, useRef, ReactNode } from 'react';
-import { Component } from '../component';
-import { useKeepAliveContext } from '../../context';
-import { useMatches } from 'react-router-dom';
-import { useKeepAlive } from '../../hooks/use-keep-alive';
+import React, { useContext, useState, createContext, ReactNode, useEffect, FC } from 'react';
+import { useLocation, useMatches } from 'react-router-dom';
+import { TabsItem, CachesItem, LifeCircle } from '../../types';
 
-interface RouterKeepAliveProps {
-  include?: Array<string>;
-  exclude?: Array<string>;
-  max?: number;
-  children?: ReactNode;
-  style?: CSSProperties;
-  className?: string;
-  styles?: {
-    wrapper?: CSSProperties;
-    content?: CSSProperties;
-  };
-  [key: string]: any;
+type LifeCircles = { [key: string]: Array<LifeCircle> };
+
+interface RouterKeepAliveContext {
+  activateds: LifeCircles;
+  setActivateds?: (activateds: LifeCircles) => void;
+  deactivateds: LifeCircles;
+  setDeactivateds?: (deactivateds: LifeCircles) => void;
+  active?: string;
+  setActive?: (active: string) => void;
+  tabs?: TabsItem[];
+  setTabs?: (tabs: TabsItem[]) => void;
+  caches?: CachesItem[];
+  setCaches?: (caches: CachesItem[]) => void;
+  nameKey?: string;
+  cacheMaxRemove?: boolean;
 }
 
+const RouterKeepAliveContext = createContext<RouterKeepAliveContext>({ activateds: {}, deactivateds: {} });
+
+RouterKeepAliveContext.displayName = 'RouterKeepAliveContext';
+
+interface RouterKeepAliveProps {
+  mode?: 'path' | 'search';
+  nameKey?: string;
+  cacheMaxRemove?: boolean;
+  children: ReactNode;
+}
 export const RouterKeepAlive: FC<RouterKeepAliveProps> = ({
+  mode = 'path',
+  nameKey = 'name',
+  cacheMaxRemove,
   children,
-  exclude,
-  include,
-  max = 10,
-  style,
-  className,
-  styles,
-  ...rest
 }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { active, tabs, caches, setCaches, nameKey, cacheMaxRemove } = useKeepAliveContext();
-  const { close } = useKeepAlive();
+  const { pathname, search } = useLocation();
   const matches: any = useMatches();
-  // 必须要有name属性才可以缓存，cache设置为false才不缓存
-  const handle = matches[matches.length - 1].handle;
-  const cache = handle?.[nameKey] && (handle?.cache ?? true);
+
+  const [activateds, setActivateds] = useState({});
+  const [deactivateds, setDeactivateds] = useState({});
+  const [active, setActive] = useState('');
+  const [tabs, setTabs] = useState<TabsItem[]>([]);
+  const [caches, setCaches] = useState<CachesItem[]>([]);
+
+  const dispatchActivateds = () => {
+    const key = mode === 'path' ? pathname : pathname + search;
+
+    // 调用activateds
+    if (activateds[key]?.length) {
+      activateds[key].forEach((item) => {
+        const deactivated = item();
+        if (deactivated) {
+          deactivated.__shouldRemove = true;
+          if (!deactivateds[key]) {
+            deactivateds[key] = [];
+          }
+          deactivateds[key].push(deactivated);
+          setDeactivateds({ ...deactivateds });
+        }
+      });
+    }
+  };
 
   useEffect(() => {
-    if (!active || !cache) {
-      return;
-    }
-    let cacheList = caches;
-    // 添加
-    const cacheRoute = cacheList.find((item) => item.name === active);
-    if (!cacheRoute) {
-      cacheList.push({
-        name: active,
-        ele: children,
-      });
-      // 缓存超过上限的
-      if (cacheList.length > max) {
-        const remove = cacheList.shift();
-        if (cacheMaxRemove) {
-          close(remove?.name);
-        }
+    const key = mode === 'path' ? pathname : pathname + search;
+    // 调用deactivateds方法
+    setActive((active) => {
+      if (deactivateds[active]?.length) {
+        deactivateds[active] = deactivateds[active].filter((item) => {
+          item();
+          return !item.__shouldRemove;
+        });
+        setDeactivateds({ ...deactivateds });
       }
+      return key;
+    });
+
+    dispatchActivateds();
+
+    const label = matches[matches.length - 1].handle?.[nameKey];
+    const existTab = tabs.find((item) => item.key === key);
+    if (!existTab && label) {
+      setTabs([
+        ...tabs,
+        {
+          key: key,
+          label,
+        },
+      ]);
     }
-    cacheList = cacheList.filter((item) => tabs.some((tab) => tab.key === item.name));
-    if (exclude || include) {
-      cacheList = cacheList.filter(({ name }) => {
-        if (exclude && exclude.includes(name)) {
-          return false;
-        }
-        if (include) {
-          return include.includes(name);
-        }
-        return true;
-      });
-    }
-    setCaches([...cacheList]);
-  }, [children, active, exclude, max, include, tabs]);
+  }, [pathname, search, mode]);
+
+  useEffect(() => {
+    const key = mode === 'path' ? pathname : pathname + search;
+
+    dispatchActivateds();
+  }, [activateds]);
 
   return (
-    <>
-      {cache && <div ref={containerRef} style={{ ...style, ...styles?.wrapper }} className={className} {...rest} />}
-      {!cache && children}
-      {caches.map(({ name, ele }) => {
-        return (
-          <Component key={name} name={name} show={name === active} to={containerRef} style={styles?.content}>
-            {ele}
-          </Component>
-        );
-      })}
-    </>
+    <RouterKeepAliveContext.Provider
+      value={{
+        activateds,
+        setActivateds,
+        deactivateds,
+        setDeactivateds,
+        active,
+        setActive,
+        tabs,
+        setTabs,
+        caches,
+        setCaches,
+        nameKey,
+        cacheMaxRemove,
+      }}
+    >
+      {children}
+    </RouterKeepAliveContext.Provider>
   );
+};
+
+export const useKeepAliveContext = () => {
+  const context = useContext(RouterKeepAliveContext);
+
+  if (!context) {
+    throw new Error('useKeepAlive必须在KeepAliveContext中使用');
+  }
+
+  return context;
 };

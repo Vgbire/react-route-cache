@@ -61,6 +61,7 @@
     "typescript": "^5.5.4"
   },
   "dependencies": {
+    "i18next": "^24.2.1",
     "react-transition-group": "^4.4.5"
   }
 }

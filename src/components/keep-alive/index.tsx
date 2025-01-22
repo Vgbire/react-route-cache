@@ -1,6 +1,7 @@
 import React, { CSSProperties, FC, useState } from 'react';
 import { useEffect, useRef, ReactNode } from 'react';
 import { Component } from '../component';
+import { createPortal } from 'react-dom';
 
 type KeepAliveItems = {
   key: string;
@@ -60,8 +61,12 @@ export const KeepAlive: FC<KeepAliveProps> = ({
         return true;
       });
     }
-
-    setNoCacheNode(!cacheList.find((item) => item.key === activeKey) && newCache ? newCache.children : undefined);
+    if (!cacheList.find((item) => item.key === activeKey) && newCache) {
+      containerRef.current.replaceChildren();
+      setNoCacheNode(newCache.children);
+    } else {
+      setNoCacheNode(null);
+    }
     setCaches([...cacheList]);
   }, [activeKey, max, items, exclude, include]);
 

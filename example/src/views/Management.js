@@ -1,6 +1,6 @@
 import { Spin } from 'antd';
 import { useEffect, useState } from 'react';
-import { useActivated, useDeactivated } from 'react-route-cache';
+import { useActivated, useDeactivated } from '@Vgbire/react-keep-alive';
 
 export default function Management() {
   const [loading, setLoading] = useState(true);

@@ -4,7 +4,7 @@ import { TabsItem, CachesItem, LifeCircle } from '../types';
 
 type LifeCircles = { [key: string]: Array<LifeCircle> };
 
-interface KeepAliveContext {
+interface RouterKeepAliveContext {
   activateds: LifeCircles;
   setActivateds?: (activateds: LifeCircles) => void;
   deactivateds: LifeCircles;
@@ -17,22 +17,28 @@ interface KeepAliveContext {
   setCaches?: (caches: CachesItem[]) => void;
   nameKey?: string;
   cacheMaxRemove?: boolean;
+  theme?: 'light' | 'dark';
+  size?: 'small' | 'middle' | 'large';
 }
 
-const KeepAliveContext = createContext<KeepAliveContext>({ activateds: {}, deactivateds: {} });
+const RouterKeepAliveContext = createContext<RouterKeepAliveContext>({ activateds: {}, deactivateds: {} });
 
-KeepAliveContext.displayName = 'KeepAliveContext';
+RouterKeepAliveContext.displayName = 'RouterKeepAliveContext';
 
-interface KeepAliveScopeProps {
+interface RouterKeepAliveScopeProps {
   mode?: 'path' | 'search';
   nameKey?: string;
   cacheMaxRemove?: boolean;
+  theme?: 'light' | 'dark';
+  size?: 'small' | 'middle' | 'large';
   children: ReactNode;
 }
-export const KeepAliveScope: FC<KeepAliveScopeProps> = ({
+export const RouterKeepAliveScope: FC<RouterKeepAliveScopeProps> = ({size="small"
   mode = 'path',
   nameKey = 'name',
   cacheMaxRemove,
+  theme = 'light',
+  size = 'middle',
   children,
 }) => {
   const { pathname, search } = useLocation();
@@ -93,13 +99,11 @@ export const KeepAliveScope: FC<KeepAliveScopeProps> = ({
   }, [pathname, search, mode]);
 
   useEffect(() => {
-    const key = mode === 'path' ? pathname : pathname + search;
-
     dispatchActivateds();
   }, [activateds]);
 
   return (
-    <KeepAliveContext.Provider
+    <RouterKeepAliveContext.Provider
       value={{
         activateds,
         setActivateds,
@@ -113,15 +117,17 @@ export const KeepAliveScope: FC<KeepAliveScopeProps> = ({
         setCaches,
         nameKey,
         cacheMaxRemove,
+        theme,
+        size,
       }}
     >
       {children}
-    </KeepAliveContext.Provider>
+    </RouterKeepAliveContext.Provider>
   );
 };
 
 export const useKeepAliveContext = () => {
-  const context = useContext(KeepAliveContext);
+  const context = useContext(RouterKeepAliveContext);
 
   if (!context) {
     throw new Error('useKeepAlive必须在KeepAliveContext中使用');

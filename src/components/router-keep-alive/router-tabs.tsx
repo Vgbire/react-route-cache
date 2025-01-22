@@ -7,13 +7,10 @@ import { useKeepAliveContext } from '../../context';
 import { useKeepAlive } from '../../hooks/use-keep-alive';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import '../../index.scss';
+import i18n from '../../i18n';
 
-interface RouterTabsProps {
-  theme?: 'light' | 'dark';
-  size?: 'small' | 'middle' | 'large';
-}
-
-export const RouterTabs: FC<RouterTabsProps> = ({ theme = 'light', size = 'middle' }) => {
+export const RouterTabs: FC = () => {
+  const { tabs, active, theme, size } = useKeepAliveContext();
   // 主题style
   const styles = {
     itemBg: theme === 'dark' ? '#001628' : '#fafafa',
@@ -30,7 +27,6 @@ export const RouterTabs: FC<RouterTabsProps> = ({ theme = 'light', size = 'middl
     fontSize: size === 'large' ? '16px' : '14px',
     padding: size === 'small' ? '6px 16px' : '8px 16px',
   };
-  const { tabs, active } = useKeepAliveContext();
   const { close, closeAll } = useKeepAlive();
 
   const navigate = useNavigate();
@@ -254,10 +250,10 @@ export const RouterTabs: FC<RouterTabsProps> = ({ theme = 'light', size = 'middl
           }}
           onClick={() => {
             Modal.confirm({
-              title: '你确定要关闭其他标签吗?',
-              content: '关闭的标签页将不会被缓存',
-              cancelText: '取消',
-              okText: '确定',
+              title: i18n.t('closeAllTabTip'),
+              content: i18n.t('closeAllTabContent'),
+              cancelText: i18n.t('cancel'),
+              okText: i18n.t('confirm'),
               onOk() {
                 closeAll();
               },

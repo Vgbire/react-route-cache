@@ -2,7 +2,7 @@ import './styles.css';
 import { Menu } from 'antd';
 import { useNavigate, useOutlet } from 'react-router-dom';
 import { Flex } from 'antd';
-import { RouterKeepAlive, KeepAliveScope, RouterKeepAliveTabs } from 'react-route-cache';
+import { RouterCache, RouterKeepAliveScope, RouterTabs } from '@Vgbire/react-keep-alive';
 
 export default function Layout() {
   const navigate = useNavigate();
@@ -42,12 +42,12 @@ export default function Layout() {
         items={items}
       />
       <div style={{ flex: 1 }}>
-        <KeepAliveScope cacheMaxRemove>
-          <RouterKeepAliveTabs size="small" />
-          <RouterKeepAlive style={{ padding: 20 }} max={3}>
+        <RouterKeepAliveScope cacheMaxRemove size="large" theme="dark">
+          <RouterTabs />
+          <RouterCache style={{ padding: 20 }} max={3}>
             {outlet}
-          </RouterKeepAlive>
-        </KeepAliveScope>
+          </RouterCache>
+        </RouterKeepAliveScope>
       </div>
     </Flex>
   );

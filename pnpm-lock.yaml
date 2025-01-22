@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      i18next:
+        specifier: ^24.2.1
+        version: 24.2.1(typescript@5.5.4)
       react-transition-group:
         specifier: ^4.4.5
         version: 4.4.5(react-dom@18.3.1)(react@18.3.1)
@@ -78,6 +81,9 @@ importers:
 
   example:
     dependencies:
+      '@Vgbire/react-keep-alive':
+        specifier: ../es
+        version: link:../es
       '@testing-library/jest-dom':
         specifier: ^5.17.0
         version: 5.17.0
@@ -93,9 +99,6 @@ importers:
       react-dom:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
-      react-route-cache:
-        specifier: ../es
-        version: link:../es
       react-router-dom:
         specifier: ^6.28.1
         version: 6.28.1(react-dom@18.3.1)(react@18.3.1)
@@ -6493,6 +6496,18 @@ packages:
   /human-signals@2.1.0:
     resolution: {integrity: sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==}
     engines: {node: '>=10.17.0'}
+    dev: false
+
+  /i18next@24.2.1(typescript@5.5.4):
+    resolution: {integrity: sha512-Q2wC1TjWcSikn1VAJg13UGIjc+okpFxQTxjVAymOnSA3RpttBQNMPf2ovcgoFVsV4QNxTfNZMAxorXZXsk4fBA==}
+    peerDependencies:
+      typescript: ^5
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.25.0
+      typescript: 5.5.4
     dev: false
 
   /iconv-lite@0.4.24:
