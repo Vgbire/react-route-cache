@@ -87,8 +87,6 @@ export const KeepAliveDemo1 = () => {
 
 ### 基本功能描述
 
-xw
-
 - 标签式路由页面缓存，打开新路由新增一个标签，切换标签则切换到对应路由
 - 缓存路由页面，切换路由或者点击标签切换页面不会重新加载
 - Tip: 该功能需要用到react-router-dom V6.0+ API，不支持react-router-dom V5.0及以下版本使用
