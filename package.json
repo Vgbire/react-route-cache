@@ -1,7 +1,7 @@
 {
-  "name": "@Vgbire/react-keep-alive",
-  "version": "1.0.0",
-  "description": "keep-alive cache for react router",
+  "name": "@vgbire/react-keep-alive",
+  "version": "1.0.1",
+  "description": "React keepAlive",
   "keywords": [
     "react",
     "router",

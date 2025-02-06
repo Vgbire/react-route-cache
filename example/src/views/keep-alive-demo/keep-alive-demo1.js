@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useActivated } from '@Vgbire/react-keep-alive';
+import { useActivated } from '@vgbire/react-keep-alive';
 
 export const KeepAliveDemo1 = () => {
   useEffect(() => {

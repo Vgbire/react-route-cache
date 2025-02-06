@@ -2,11 +2,11 @@
 
 ```js
 // npm
-npm i @Vgbire/react-keep-alive -S
+npm i @vgbire/react-keep-alive -S
 // pnpm
-pnpm i @Vgbire/react-keep-alive -S
+pnpm i @vgbire/react-keep-alive -S
 // yarn
-yarn add @Vgbire/react-keep-alive
+yarn add @vgbire/react-keep-alive
 ```
 
 ## Demo
@@ -29,7 +29,7 @@ yarn add @Vgbire/react-keep-alive
   > Tip: 如果需要用到 useActivated 生命周期函数，需要使用 KeepAlveScope 包裹 KeepAlive 组件。
 
 ```js
-import { KeepAliveScope, KeepAlive } from '@Vgbire/react-keep-alive';
+import { KeepAliveScope, KeepAlive } from '@vgbire/react-keep-alive';
 ...
 const items = [
   { key: '1', children: <KeepAliveDemo1 /> },
@@ -65,7 +65,7 @@ styles?：{
 ```js
 // KeepAliveDemo1 Code 生命周期函数使用示例
 import React, { useEffect } from 'react';
-import { useActivated } from '@Vgbire/react-keep-alive';
+import { useActivated } from '@vgbire/react-keep-alive';
 
 export const KeepAliveDemo1 = () => {
   useEffect(() => {
@@ -97,7 +97,7 @@ xw
 
 ```js
 // Layout.tsx
-import { RouterKeepAlive, RouterTabs, RouterCache } from '@Vgbire/react-keep-alive';
+import { RouterKeepAlive, RouterTabs, RouterCache } from '@vgbire/react-keep-alive';
 import { useOutlet } from 'react-router-dom';
 
 const Layout = () => {
@@ -188,7 +188,7 @@ useRouterActivated 用法同 [useActivated](#keepalive-生命周期函数)
 - closeNavigator 是为了解决比如表单创建页，创建完之后需要跳转到其他路由。closeNavigator 会关闭当前创建页标签，然后跳转到指定路由。是 close()和 navigator(url)的语法糖。
 
 ```js
-import { useRouterKeepAliveApi } from '@Vgbire/react-keep-alive';
+import { useRouterKeepAliveApi } from '@vgbire/react-keep-alive';
 ...
   const { close, closeAll, closeNavigator } = useRouterKeepAliveApi();
 ...

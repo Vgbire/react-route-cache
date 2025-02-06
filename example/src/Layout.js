@@ -2,7 +2,7 @@ import './styles.css';
 import { Menu } from 'antd';
 import { useNavigate, useOutlet } from 'react-router-dom';
 import { Flex } from 'antd';
-import { RouterKeepAlive, RouterTabs, RouterCache } from '@Vgbire/react-keep-alive';
+import { RouterKeepAlive, RouterTabs, RouterCache } from '@vgbire/react-keep-alive';
 
 export default function Layout() {
   const navigate = useNavigate();
