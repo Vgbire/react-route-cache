@@ -1,7 +1,7 @@
 import React, { CSSProperties, FC, useState } from 'react';
 import { useEffect, useRef, ReactNode } from 'react';
 import { Component } from '../component';
-import { createPortal } from 'react-dom';
+import { useKeepAliveScopeContext } from './context';
 
 type KeepAliveItems = {
   key: string;
@@ -10,8 +10,8 @@ type KeepAliveItems = {
 
 interface KeepAliveProps {
   activeKey?: string;
-  include?: Array<string>;
-  exclude?: Array<string>;
+  include?: string[];
+  exclude?: string[];
   max?: number;
   items?: KeepAliveItems[];
   style?: CSSProperties;
@@ -69,6 +69,21 @@ export const KeepAlive: FC<KeepAliveProps> = ({
     }
     setCaches([...cacheList]);
   }, [activeKey, max, items, exclude, include]);
+
+  const { setActive, deactivateds, setDeactivateds } = useKeepAliveScopeContext();
+  useEffect(() => {
+    // 调用deactivateds方法
+    setActive?.((prevKey: string) => {
+      if (deactivateds[prevKey]?.length) {
+        deactivateds[prevKey].forEach((item) => {
+          item();
+        });
+        delete deactivateds[prevKey];
+        setDeactivateds?.({ ...deactivateds });
+      }
+      return activeKey;
+    });
+  }, [activeKey]);
 
   return (
     <>

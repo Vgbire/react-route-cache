@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { CloseCircleOutlined, LeftOutlined, RightOutlined, CloseOutlined } from '@ant-design/icons';
 import { useSize } from 'ahooks';
 import { Divider, Flex, Modal } from 'antd';
-import { useKeepAliveContext } from '../../context';
-import { useKeepAlive } from '../../hooks/use-keep-alive';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import '../../index.scss';
-import i18n from '../../i18n';
+import '../index.scss';
+import { useKeepAliveContext } from '.';
+import i18n from '../i18n';
+import { useRouterKeepAliveApi } from './hooks/use-router-keep-alive-api';
 
 export const RouterTabs: FC = () => {
   const { tabs, active, theme, size } = useKeepAliveContext();
@@ -27,7 +27,7 @@ export const RouterTabs: FC = () => {
     fontSize: size === 'large' ? '16px' : '14px',
     padding: size === 'small' ? '6px 16px' : '8px 16px',
   };
-  const { close, closeAll } = useKeepAlive();
+  const { close, closeAll } = useRouterKeepAliveApi();
 
   const navigate = useNavigate();
   const [left, setLeft] = useState(0);
@@ -264,3 +264,4 @@ export const RouterTabs: FC = () => {
     </Flex>
   );
 };
+RouterTabs.displayName = 'RouterTabs';

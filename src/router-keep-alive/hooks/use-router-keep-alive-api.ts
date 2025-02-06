@@ -1,11 +1,23 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useKeepAliveContext } from '../context';
+import { useKeepAliveContext } from '..';
+import { useCallback } from 'react';
 
-export const useKeepAlive = () => {
+export const useRouterKeepAliveApi = () => {
   const navigator = useNavigate();
   const { pathname } = useLocation();
 
-  const { active, setActive, tabs, setTabs } = useKeepAliveContext();
+  const { active, setActive, tabs, setTabs, activateds, setActivateds, deactivateds, setDeactivateds } =
+    useKeepAliveContext();
+
+  const clearLifeCycle = useCallback(
+    (key) => {
+      delete activateds[key];
+      setActivateds({ ...activateds });
+      delete deactivateds[key];
+      setDeactivateds({ ...deactivateds });
+    },
+    [active, activateds, deactivateds],
+  );
 
   const close = (key?: string) => {
     const tabKey = key || pathname;
@@ -16,6 +28,8 @@ export const useKeepAlive = () => {
       if (active === tabKey) {
         navigator(tabs[0].key);
       }
+      // 关闭缓存同时要清除生命周期
+      clearLifeCycle(tabKey);
     }
   };
 
@@ -25,11 +39,18 @@ export const useKeepAlive = () => {
       tabs.splice(index, 1);
       setTabs([...tabs]);
       navigator(url);
+      // 关闭缓存同时要清除生命周期
+      clearLifeCycle(pathname);
     }
   };
 
   const closeAll = () => {
     setTabs([tabs.find((item) => item.key === active)]);
+    tabs.forEach((item) => {
+      if (item.key !== active) {
+        clearLifeCycle(item.key);
+      }
+    });
   };
 
   return {

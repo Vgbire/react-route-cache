@@ -1,14 +1,12 @@
 import React, { CSSProperties, FC } from 'react';
 import { useEffect, useRef, ReactNode } from 'react';
 import { Component } from '../component';
-import { useKeepAliveContext } from '../../context';
 import { useMatches } from 'react-router-dom';
-import { useKeepAlive } from '../../hooks/use-keep-alive';
-
+import { useKeepAliveContext } from '.';
+import { useRouterKeepAliveApi } from './hooks/use-router-keep-alive-api';
 interface RouterCacheProps {
   include?: Array<string>;
   exclude?: Array<string>;
-  max?: number;
   children?: ReactNode;
   style?: CSSProperties;
   className?: string;
@@ -23,15 +21,14 @@ export const RouterCache: FC<RouterCacheProps> = ({
   children,
   exclude,
   include,
-  max = 10,
   style,
   className,
   styles,
   ...rest
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { active, tabs, caches, setCaches, nameKey, cacheMaxRemove } = useKeepAliveContext();
-  const { close } = useKeepAlive();
+  const { active, tabs, caches, setCaches, nameKey, max, cacheMaxRemove } = useKeepAliveContext();
+  const { close } = useRouterKeepAliveApi();
   const matches: any = useMatches();
   // 必须要有name属性才可以缓存，cache设置为false才不缓存
   const handle = matches[matches.length - 1].handle;

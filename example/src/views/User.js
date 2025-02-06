@@ -1,6 +1,6 @@
 import { Spin } from 'antd';
 import { useEffect, useState } from 'react';
-import { useActivated, useDeactivated } from '@Vgbire/react-keep-alive';
+import { useRouterActivated } from '@Vgbire/react-keep-alive';
 
 export default function Customer() {
   const [loading, setLoading] = useState(true);
@@ -10,12 +10,11 @@ export default function Customer() {
     }, 1000);
   }, []);
 
-  useActivated(() => {
+  useRouterActivated(() => {
     console.log('用户页面进来了');
-  });
-
-  useDeactivated(() => {
-    console.log('用户页面离开了');
+    return () => {
+      console.log('用户页面离开了');
+    };
   });
 
   return (

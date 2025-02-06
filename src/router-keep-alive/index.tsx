@@ -1,6 +1,8 @@
-import React, { useContext, useState, createContext, ReactNode, useEffect, FC } from 'react';
+import React, { useContext, useState, createContext, ReactNode, useEffect, FC, CSSProperties } from 'react';
 import { useLocation, useMatches } from 'react-router-dom';
 import { TabsItem, CachesItem, LifeCircle } from '../types';
+import { RouterTabs } from './router-tabs';
+import { RouterCache } from './router-cache';
 
 type LifeCircles = { [key: string]: Array<LifeCircle> };
 
@@ -19,26 +21,36 @@ interface RouterKeepAliveContext {
   cacheMaxRemove?: boolean;
   theme?: 'light' | 'dark';
   size?: 'small' | 'middle' | 'large';
+  max?: number;
 }
 
 const RouterKeepAliveContext = createContext<RouterKeepAliveContext>({ activateds: {}, deactivateds: {} });
 
-RouterKeepAliveContext.displayName = 'RouterKeepAliveContext';
+RouterKeepAliveContext.displayName = 'RouterKeepAlive';
 
-interface RouterKeepAliveScopeProps {
+interface RouterKeepAliveProps {
   mode?: 'path' | 'search';
   nameKey?: string;
   cacheMaxRemove?: boolean;
   theme?: 'light' | 'dark';
   size?: 'small' | 'middle' | 'large';
+  max?: number;
+  custom?: boolean;
+  bodyStyles?: {
+    wrapper?: CSSProperties;
+    content?: CSSProperties;
+  };
   children: ReactNode;
 }
-export const RouterKeepAliveScope: FC<RouterKeepAliveScopeProps> = ({size="small"
+export const RouterKeepAlive: FC<RouterKeepAliveProps> = ({
   mode = 'path',
   nameKey = 'name',
   cacheMaxRemove,
   theme = 'light',
   size = 'middle',
+  max = 10,
+  custom,
+  bodyStyles,
   children,
 }) => {
   const { pathname, search } = useLocation();
@@ -58,7 +70,6 @@ export const RouterKeepAliveScope: FC<RouterKeepAliveScopeProps> = ({size="small
       activateds[key].forEach((item) => {
         const deactivated = item();
         if (deactivated) {
-          deactivated.__shouldRemove = true;
           if (!deactivateds[key]) {
             deactivateds[key] = [];
           }
@@ -74,10 +85,10 @@ export const RouterKeepAliveScope: FC<RouterKeepAliveScopeProps> = ({size="small
     // 调用deactivateds方法
     setActive((active) => {
       if (deactivateds[active]?.length) {
-        deactivateds[active] = deactivateds[active].filter((item) => {
+        deactivateds[active].forEach((item) => {
           item();
-          return !item.__shouldRemove;
         });
+        delete deactivateds[active];
         setDeactivateds({ ...deactivateds });
       }
       return key;
@@ -98,9 +109,9 @@ export const RouterKeepAliveScope: FC<RouterKeepAliveScopeProps> = ({size="small
     }
   }, [pathname, search, mode]);
 
-  useEffect(() => {
-    dispatchActivateds();
-  }, [activateds]);
+  // useEffect(() => {
+  //   dispatchActivateds();
+  // }, [activateds]);
 
   return (
     <RouterKeepAliveContext.Provider
@@ -119,9 +130,17 @@ export const RouterKeepAliveScope: FC<RouterKeepAliveScopeProps> = ({size="small
         cacheMaxRemove,
         theme,
         size,
+        max,
       }}
     >
-      {children}
+      {custom ? (
+        children
+      ) : (
+        <>
+          <RouterTabs />
+          <RouterCache styles={bodyStyles}>{children}</RouterCache>
+        </>
+      )}
     </RouterKeepAliveContext.Provider>
   );
 };
@@ -130,7 +149,7 @@ export const useKeepAliveContext = () => {
   const context = useContext(RouterKeepAliveContext);
 
   if (!context) {
-    throw new Error('useKeepAlive必须在KeepAliveContext中使用');
+    throw new Error('useKeepAliveContext 必须在 RouterKeepAliveContext 中使用');
   }
 
   return context;

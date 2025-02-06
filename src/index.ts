@@ -1,10 +1,10 @@
-export { KeepAlive } from './components/keep-alive';
+export { KeepAliveScope } from './keep-alive/context';
+export { KeepAlive } from './keep-alive';
+export { useActivated } from './keep-alive/hooks/use-activated';
 
-export { RouterKeepAlive } from './components/router-keep-alive';
-export { RouterKeepAliveScope } from './context/index';
-export { RouterTabs } from './components/router-keep-alive/router-tabs';
-export { RouterCache } from './components/router-keep-alive/router-cache';
+export { RouterKeepAlive } from './router-keep-alive';
+export { RouterTabs } from './router-keep-alive/router-tabs';
+export { RouterCache } from './router-keep-alive/router-cache';
 
-export { useActivated } from './hooks/use-activated';
-export { useDeactivated } from './hooks/use-deactivated';
-export { useKeepAlive } from './hooks/use-keep-alive';
+export { useRouterActivated } from './router-keep-alive/hooks/use-router-activated';
+export { useRouterKeepAliveApi } from './router-keep-alive/hooks/use-router-keep-alive-api';

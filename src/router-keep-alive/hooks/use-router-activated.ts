@@ -1,10 +1,10 @@
 import { useEffect, useId } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useKeepAliveContext } from '../context';
-import { LifeCircle } from '../types';
+import { LifeCircle } from '../../types';
+import { useKeepAliveContext } from '..';
 
-export const useActivated = (callback: LifeCircle, deps: any[] = []) => {
-  const { activateds, setActivateds } = useKeepAliveContext();
+export const useRouterActivated = (callback: LifeCircle, deps: any[] = []) => {
+  const { activateds, setActivateds, deactivateds, setDeactivateds } = useKeepAliveContext();
   const { pathname } = useLocation();
 
   const id = useId();
@@ -19,6 +19,15 @@ export const useActivated = (callback: LifeCircle, deps: any[] = []) => {
     }
     activateds[pathname].push(callback);
     setActivateds({ ...activateds });
+    // 执行callback
+    const deactivated = callback();
+    if (deactivated) {
+      if (!deactivateds[pathname]) {
+        deactivateds[pathname] = [];
+      }
+      deactivateds[pathname].push(deactivated);
+      setDeactivateds({ ...deactivateds });
+    }
     return () => {
       delete activateds[pathname];
       setActivateds({ ...activateds });

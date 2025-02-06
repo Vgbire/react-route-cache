@@ -10,13 +10,13 @@ export default {
     {
       file: './lib/index.cjs',
       format: 'cjs',
-      sourcemap: false,
+      sourcemap: true,
       name: 'react-route-cache',
     },
     {
       file: './es/index.js',
       format: 'esm',
-      sourcemap: false,
+      sourcemap: true,
     },
   ],
   context: 'window',

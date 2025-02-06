@@ -1,7 +1,7 @@
 import { useEffect, useId } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useKeepAliveContext } from '../context';
-import { LifeCircle } from '../types';
+import { LifeCircle } from '../../types';
+import { useKeepAliveContext } from '..';
 
 export const useDeactivated = (callback: LifeCircle, deps: any[] = []) => {
   const { deactivateds, setDeactivateds } = useKeepAliveContext();
