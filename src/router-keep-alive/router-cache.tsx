@@ -71,9 +71,11 @@ export const RouterCache: FC<RouterCacheProps> = ({
 
   return (
     <>
-      {cache && <div ref={containerRef} style={{ ...style, ...styles?.wrapper }} className={className} {...rest} />}
+      {cache && (
+        <div ref={containerRef} style={{ ...style, ...styles?.wrapper }} className={className} {...rest} key="cache" />
+      )}
       {!cache && (
-        <div ref={containerRef} style={{ ...style, ...styles?.wrapper }} className={className} {...rest}>
+        <div ref={containerRef} style={{ ...style, ...styles?.wrapper }} className={className} {...rest} key="no-cache">
           {children}
         </div>
       )}
