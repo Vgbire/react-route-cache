@@ -109,10 +109,6 @@ export const RouterKeepAlive: FC<RouterKeepAliveProps> = ({
     }
   }, [pathname, search, mode]);
 
-  // useEffect(() => {
-  //   dispatchActivateds();
-  // }, [activateds]);
-
   return (
     <RouterKeepAliveContext.Provider
       value={{

@@ -1,14 +1,14 @@
-import { useEffect, useId } from 'react';
+import { useCallback, useEffect, useId } from 'react';
 import { useLocation } from 'react-router-dom';
 import { LifeCircle } from '../../types';
 import { useKeepAliveContext } from '..';
 
-export const useRouterActivated = (callback: LifeCircle, deps: any[] = []) => {
+export const useRouterEffect = (callback: LifeCircle, deps: any[] = []) => {
   const { activateds, setActivateds, deactivateds, setDeactivateds } = useKeepAliveContext();
   const { pathname } = useLocation();
 
   const id = useId();
-  useEffect(() => {
+  const handleEffect = useCallback(() => {
     callback.id = id;
     if (!activateds[pathname]) {
       activateds[pathname] = [];
@@ -32,5 +32,9 @@ export const useRouterActivated = (callback: LifeCircle, deps: any[] = []) => {
       delete activateds[pathname];
       setActivateds({ ...activateds });
     };
+  }, [activateds, deactivateds]);
+
+  useEffect(() => {
+    handleEffect();
   }, [...deps]);
 };

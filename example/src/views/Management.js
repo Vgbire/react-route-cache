@@ -1,6 +1,6 @@
 import { Spin } from 'antd';
 import { useEffect, useState } from 'react';
-import { useRouterActivated } from '@vgbire/react-keep-alive';
+import { useRouterEffect } from '@vgbire/react-keep-alive';
 
 export default function Management() {
   const [loading, setLoading] = useState(true);
@@ -10,7 +10,7 @@ export default function Management() {
     }, 1000);
   }, []);
 
-  useRouterActivated(() => {
+  useRouterEffect(() => {
     console.log('管理页面进来了');
     return () => {
       console.log('管理页面离开了');

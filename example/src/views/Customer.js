@@ -1,6 +1,6 @@
 import { Spin, Tabs } from 'antd';
 import { useEffect, useState } from 'react';
-import { KeepAlive, useRouterActivated, KeepAliveScope } from '@vgbire/react-keep-alive';
+import { KeepAlive, useRouterEffect, KeepAliveScope } from '@vgbire/react-keep-alive';
 import { KeepAliveDemo1 } from './keep-alive-demo/keep-alive-demo1';
 import { KeepAliveDemo2 } from './keep-alive-demo/keep-alive-demo2';
 import { KeepAliveDemo3 } from './keep-alive-demo/keep-alive-demo3';
@@ -13,7 +13,7 @@ export default function Customer() {
     }, 1000);
   }, []);
 
-  useRouterActivated(() => {
+  useRouterEffect(() => {
     console.log('客户页面进来了');
     return () => {
       console.log('客户页面离开了');

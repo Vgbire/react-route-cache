@@ -2,7 +2,7 @@ import { useEffect, useId } from 'react';
 import { LifeCircle } from '../../types';
 import { useKeepAliveScopeContext } from '../context';
 
-export const useActivated = (callback: LifeCircle, deps: any[] = []) => {
+export const useKeepAliveEffect = (callback: LifeCircle, deps: any[] = []) => {
   const { active, activateds, setActivateds } = useKeepAliveScopeContext();
 
   const id = useId();

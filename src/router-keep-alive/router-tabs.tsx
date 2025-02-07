@@ -3,11 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { CloseCircleOutlined, LeftOutlined, RightOutlined, CloseOutlined } from '@ant-design/icons';
 import { useSize } from 'ahooks';
 import { Divider, Flex, Modal } from 'antd';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import '../index.scss';
 import { useKeepAliveContext } from '.';
 import i18n from '../i18n';
-import { useRouterKeepAliveApi } from './hooks/use-router-keep-alive-api';
+import { useRouterApi } from './hooks/use-router-api';
 
 export const RouterTabs: FC = () => {
   const { tabs, active, theme, size } = useKeepAliveContext();
@@ -27,7 +26,7 @@ export const RouterTabs: FC = () => {
     fontSize: size === 'large' ? '16px' : '14px',
     padding: size === 'small' ? '6px 16px' : '8px 16px',
   };
-  const { close, closeAll } = useRouterKeepAliveApi();
+  const { close, closeAll } = useRouterApi();
 
   const navigate = useNavigate();
   const [left, setLeft] = useState(0);
@@ -152,80 +151,80 @@ export const RouterTabs: FC = () => {
             left,
           }}
         >
-          <TransitionGroup className="tab-list">
-            {/* 如果没有label不应该显示tab */}
-            {routerTabs.map((item, index) => {
-              return (
-                <CSSTransition timeout={300} classNames="fade" key={item.key}>
-                  <div style={{ display: 'inline-block' }}>
-                    {index !== 0 && <Divider type="vertical" className="tab-item-divider" />}
-                    <div
-                      className="tab-item"
-                      onClick={() => {
-                        navigate(item.key);
-                      }}
-                      style={{
-                        backgroundColor: item.key === active ? styles.itemActiveBg : styles.itemBg,
-                        padding: sizeStyle.padding,
-                        fontSize: sizeStyle.fontSize,
-                        display: 'inline-block',
+          {/* 动画有关闭 BUG */}
+          {/* <TransitionGroup className="tab-list"> */}
+          {/* 如果没有label不应该显示tab */}
+          {routerTabs.map((item, index) => {
+            return (
+              // <CSSTransition timeout={300} classNames="fade" key={item.key}>
+              <div style={{ display: 'inline-block' }} key={item.key}>
+                {index !== 0 && <Divider type="vertical" className="tab-item-divider" />}
+                <div
+                  className="tab-item"
+                  onClick={() => {
+                    navigate(item.key);
+                  }}
+                  style={{
+                    backgroundColor: item.key === active ? styles.itemActiveBg : styles.itemBg,
+                    padding: sizeStyle.padding,
+                    fontSize: sizeStyle.fontSize,
+                    display: 'inline-block',
+                  }}
+                  onMouseEnter={(e: any) => {
+                    setRouterTabs(
+                      routerTabs.map((tab) => {
+                        if (tab.key === active) {
+                          return tab;
+                        } else {
+                          return {
+                            ...tab,
+                            itemColor: tab.key === item.key ? styles.itemHoverColor : styles.itemColor,
+                          };
+                        }
+                      }),
+                    );
+                  }}
+                  onMouseLeave={(e: any) => {
+                    setRouterTabs(
+                      routerTabs.map((tab) => {
+                        if (tab.key === active) {
+                          return tab;
+                        } else {
+                          return { ...tab, itemColor: styles.itemColor };
+                        }
+                      }),
+                    );
+                  }}
+                >
+                  <span className="tab-item-label" style={{ color: item.itemColor }}>
+                    {item.label}
+                  </span>
+                  {routerTabs.length > 1 && (
+                    <CloseOutlined
+                      className="tab-item-icon"
+                      style={{ color: item.iconColor }}
+                      onClick={(e: any) => {
+                        e.stopPropagation();
+                        close(item.key);
                       }}
                       onMouseEnter={(e: any) => {
                         setRouterTabs(
-                          routerTabs.map((tab) => {
-                            if (tab.key === active) {
-                              return tab;
-                            } else {
-                              return {
-                                ...tab,
-                                itemColor: tab.key === item.key ? styles.itemHoverColor : styles.itemColor,
-                              };
-                            }
-                          }),
+                          routerTabs.map((tab) => ({
+                            ...tab,
+                            iconColor: tab.key === item.key ? styles.hoverIconColor : styles.iconColor,
+                          })),
                         );
                       }}
                       onMouseLeave={(e: any) => {
-                        setRouterTabs(
-                          routerTabs.map((tab) => {
-                            if (tab.key === active) {
-                              return tab;
-                            } else {
-                              return { ...tab, itemColor: styles.itemColor };
-                            }
-                          }),
-                        );
+                        setRouterTabs(routerTabs.map((tab) => ({ ...tab, iconColor: styles.iconColor })));
                       }}
-                    >
-                      <span className="tab-item-label" style={{ color: item.itemColor }}>
-                        {item.label}
-                      </span>
-                      {routerTabs.length > 1 && (
-                        <CloseOutlined
-                          className="tab-item-icon"
-                          style={{ color: item.iconColor }}
-                          onClick={(e: any) => {
-                            e.stopPropagation();
-                            close(item.key);
-                          }}
-                          onMouseEnter={(e: any) => {
-                            setRouterTabs(
-                              routerTabs.map((tab) => ({
-                                ...tab,
-                                iconColor: tab.key === item.key ? styles.hoverIconColor : styles.iconColor,
-                              })),
-                            );
-                          }}
-                          onMouseLeave={(e: any) => {
-                            setRouterTabs(routerTabs.map((tab) => ({ ...tab, iconColor: styles.iconColor })));
-                          }}
-                        />
-                      )}
-                    </div>
-                  </div>
-                </CSSTransition>
-              );
-            })}
-          </TransitionGroup>
+                    />
+                  )}
+                </div>
+              </div>
+            );
+          })}
+          {/* </TransitionGroup> */}
         </div>
       </div>
       <RightOutlined
