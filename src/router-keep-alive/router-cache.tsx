@@ -72,7 +72,11 @@ export const RouterCache: FC<RouterCacheProps> = ({
   return (
     <>
       {cache && <div ref={containerRef} style={{ ...style, ...styles?.wrapper }} className={className} {...rest} />}
-      {!cache && children}
+      {!cache && (
+        <div ref={containerRef} style={{ ...style, ...styles?.wrapper }} className={className} {...rest}>
+          {children}
+        </div>
+      )}
       {caches.map(({ name, ele }) => {
         return (
           <Component key={name} name={name} show={name === active} to={containerRef} style={styles?.content}>

@@ -1,11 +1,14 @@
 import { useCallback, useEffect, useId } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useMatches } from 'react-router-dom';
 import { LifeCircle } from '../../types';
 import { useKeepAliveContext } from '..';
 
 export const useRouterEffect = (callback: LifeCircle, deps: any[] = []) => {
-  const { activateds, setActivateds, deactivateds, setDeactivateds } = useKeepAliveContext();
+  const { activateds, setActivateds, deactivateds, setDeactivateds, nameKey } = useKeepAliveContext();
   const { pathname } = useLocation();
+
+  // 设置为不缓存的，不需要将回调添加到activateds
+  const matches: any = useMatches();
 
   const id = useId();
   const handleEffect = useCallback(() => {
@@ -17,8 +20,12 @@ export const useRouterEffect = (callback: LifeCircle, deps: any[] = []) => {
     if (index !== -1) {
       activateds[pathname].splice(index, 1);
     }
-    activateds[pathname].push(callback);
-    setActivateds({ ...activateds });
+    const handle = matches[matches.length - 1].handle;
+    const cache = handle?.[nameKey] && (handle?.cache ?? true);
+    if (cache) {
+      activateds[pathname].push(callback);
+      setActivateds({ ...activateds });
+    }
     // 执行callback
     const deactivated = callback();
     if (deactivated) {
@@ -32,7 +39,7 @@ export const useRouterEffect = (callback: LifeCircle, deps: any[] = []) => {
       delete activateds[pathname];
       setActivateds({ ...activateds });
     };
-  }, [activateds, deactivateds]);
+  }, [activateds, deactivateds, matches]);
 
   useEffect(() => {
     handleEffect();
