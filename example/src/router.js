@@ -25,6 +25,7 @@ export const router = createBrowserRouter([
         element: <User />,
         handle: {
           name: '用户',
+          cache: false,
         },
       },
       {
