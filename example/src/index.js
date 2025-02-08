@@ -1,8 +1,10 @@
-import { createRoot } from "react-dom/client";
+import { createRoot } from 'react-dom/client';
+import App from './App';
+import { changeVersion } from '@vgbire/react-keep-alive';
 
-import App from "./App";
+changeVersion(6);
 
-const rootElement = document.getElementById("root");
+const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
 
 root.render(<App />);

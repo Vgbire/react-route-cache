@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
-import { useNavigate } from '@src/router-verison';
+import { useNavigate } from '@src/router-version';
 import { CloseCircleOutlined, LeftOutlined, RightOutlined, CloseOutlined } from '@ant-design/icons';
 import { useSize } from 'ahooks';
 import { Divider, Flex, Modal } from 'antd';
