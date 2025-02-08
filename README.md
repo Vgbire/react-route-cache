@@ -26,22 +26,23 @@ yarn add @vgbire/react-keep-alive
 
 - 实现 KeepAlive 组件缓存
 - 实现 useActivated 生命周期函数，会在组件激活时调用，可选择性返回一个 deactivated 函数，改函数会在组件失活时调用。
+
   > Tip: 如果需要用到 useActivated 生命周期函数，需要使用 KeepAlveScope 包裹 KeepAlive 组件。
 
-```js
-import { KeepAliveScope, KeepAlive } from '@vgbire/react-keep-alive';
-...
-const items = [
-  { key: '1', children: <KeepAliveDemo1 /> },
-  { key: '2', children: <KeepAliveDemo2 /> },
-  { key: '3', children: <KeepAliveDemo3 /> },
-];
-...
-// 需要用到生命周期函数，则加上 KeepAliveScope
-// <KeepAliveScope>
-<KeepAlive activeKey={activeKey} items={items} />;
-// </KeepAliveScope>
-```
+  ```js
+  import { KeepAliveScope, KeepAlive } from '@vgbire/react-keep-alive';
+  ...
+  const items = [
+    { key: '1', children: <KeepAliveDemo1 /> },
+    { key: '2', children: <KeepAliveDemo2 /> },
+    { key: '3', children: <KeepAliveDemo3 /> },
+  ];
+  ...
+  // 需要用到生命周期函数，则加上 KeepAliveScope
+  // <KeepAliveScope>
+  <KeepAlive activeKey={activeKey} items={items} />;
+  // </KeepAliveScope>
+  ```
 
 ### KeepAlive 组件属性
 
@@ -62,24 +63,24 @@ styles?：{
 - useActivated 在组件激活时执行，useActivated 返回的方法会在组件失活时执行。
 - 第二个可选参数是一个依赖项数组，为了更新回调函数里的依赖，一般不会用到，功能类似 useCallback，依赖变化不会执行函数。
 
-```js
-// KeepAliveDemo1 Code 生命周期函数使用示例
-import React, { useEffect } from 'react';
-import { useActivated } from '@vgbire/react-keep-alive';
+  ```js
+  // KeepAliveDemo1 Code 生命周期函数使用示例
+  import React, { useEffect } from 'react';
+  import { useActivated } from '@vgbire/react-keep-alive';
 
-export const KeepAliveDemo1 = () => {
-  useEffect(() => {
-    console.log('KeepAlive Demo1');
-  }, []);
-  useActivated(() => {
-    console.log('KeepAlive Demo1 激活了');
-    return () => {
-      console.log('KeepAlive Demo1 失活了');
-    };
-  });
-  return <div>KeepAlive Demo1</div>;
-};
-```
+  export const KeepAliveDemo1 = () => {
+    useEffect(() => {
+      console.log('KeepAlive Demo1');
+    }, []);
+    useActivated(() => {
+      console.log('KeepAlive Demo1 激活了');
+      return () => {
+        console.log('KeepAlive Demo1 失活了');
+      };
+    });
+    return <div>KeepAlive Demo1</div>;
+  };
+  ```
 
 ## 高级功能 - 路由缓存
 
@@ -89,7 +90,15 @@ export const KeepAliveDemo1 = () => {
 
 - 标签式路由页面缓存，打开新路由新增一个标签，切换标签则切换到对应路由
 - 缓存路由页面，切换路由或者点击标签切换页面不会重新加载
-- Tip: 该功能需要用到react-router-dom V6.0+ API，不支持react-router-dom V5.0及以下版本使用
+- 注意: 该功能需要用到react-router-dom V6.0/V7.0 + API，不支持react-router-dom V5.0及以下版本使用
+- 默认使用V7版本，如果项目使用的是V6版本，可以使用 changeVersion 将功能版本变更为 V6，否则因为版本不一致报错
+
+  ```js
+  // App.js
+  import { changeVersion } from '@vgbire/react-keep-alive';
+
+  changeVersion(6);
+  ```
 
 ### 给 Layout 组件的 outlet 加上 keep-alive
 
@@ -159,25 +168,25 @@ createBrowserRouter([
 6. custom: 默认为false，当需要自定义 RouterTabs 和 RouterCache 时，需要将其设置为true
 7. bodyStyles: 同 KeepAlive styles属性
 
-```js
-interface RouterKeepAliveProps {
-  mode?: "path" | "search";
-  nameKey?: string;
-  cacheMaxRemove?: boolean;
-  theme?: 'light' | 'dark';
-  size?: 'small' | 'middle' | 'large';
-  max?: number;
-  custom?: boolean;
-  bodyStyles?: {
-    wrapper?: CSSProperties;
-    content?: CSSProperties;
-  };
-}
-```
+   ```js
+   interface RouterKeepAliveProps {
+     mode?: "path" | "search";
+     nameKey?: string;
+     cacheMaxRemove?: boolean;
+     theme?: 'light' | 'dark';
+     size?: 'small' | 'middle' | 'large';
+     max?: number;
+     custom?: boolean;
+     bodyStyles?: {
+       wrapper?: CSSProperties;
+       content?: CSSProperties;
+     };
+   }
+   ```
 
 ### RouterKeepAlive 生命周期函数
 
-useRouterActivated 用法同 [useActivated](#keepalive-生命周期函数)
+    useRouterActivated 用法同 [useActivated](#keepalive-生命周期函数)
 
 ### RouterKeepAlive 其他 API
 

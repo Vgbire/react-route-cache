@@ -10,13 +10,13 @@ export default {
     {
       file: './lib/index.cjs',
       format: 'cjs',
-      sourcemap: true,
+      sourcemap: false,
       name: 'react-route-cache',
     },
     {
       file: './es/index.js',
       format: 'esm',
-      sourcemap: true,
+      sourcemap: false,
     },
   ],
   context: 'window',
@@ -27,5 +27,5 @@ export default {
     warn(warning);
   },
   plugins: [nodeResolve(), commonjs(), typescript(), postcss(), terser()],
-  external: ['react', 'react-dom', 'react-router-dom'],
+  external: ['react', 'react-dom', 'react-router-dom', 'react-router'],
 };

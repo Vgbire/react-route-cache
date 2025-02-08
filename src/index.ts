@@ -8,3 +8,5 @@ export { RouterCache } from './router-keep-alive/router-cache';
 
 export { useRouterEffect } from './router-keep-alive/hooks/use-router-effect';
 export { useRouterApi } from './router-keep-alive/hooks/use-router-api';
+
+export { changeVersion } from './router-verison';

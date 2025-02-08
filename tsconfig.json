@@ -6,6 +6,10 @@
     "module": "esnext",
     "jsx": "react",
     "strict": false,
+    "baseUrl": "./",
+    "paths": {
+      "@src/*": ["src/*"]
+    },
     "moduleResolution": "Bundler",
     "lib": ["dom", "es2022"],
     "allowSyntheticDefaultImports": true,

@@ -1,6 +1,6 @@
 {
   "name": "@vgbire/react-keep-alive",
-  "version": "2.0.4",
+  "version": "2.1.0",
   "description": "React keepAlive",
   "keywords": [
     "react",
@@ -51,7 +51,6 @@
     "prettier": "^3.3.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.28.1",
     "rollup": "^4.19.0",
     "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
@@ -62,6 +61,8 @@
   },
   "dependencies": {
     "i18next": "^24.2.1",
+    "react-router": "^7.1.5",
+    "react-router-dom": "^6.29.0",
     "react-transition-group": "^4.4.5"
   }
 }

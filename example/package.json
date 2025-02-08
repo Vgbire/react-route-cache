@@ -6,10 +6,11 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@vgbire/react-keep-alive": "../es",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "@vgbire/react-keep-alive": "../es",
-    "react-router-dom": "^6.28.1",
+    "react-router": "^7.1.5",
+    "react-router-dom": "^6.29.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
