@@ -25,9 +25,9 @@ yarn add @vgbire/react-keep-alive
 ### 基本功能描述
 
 - 实现 KeepAlive 组件缓存
-- 实现 useActivated 生命周期函数，会在组件激活时调用，可选择性返回一个 deactivated 函数，改函数会在组件失活时调用。
+- 实现 useKeepAliveEffect 生命周期函数，会在组件激活时调用，可选择性返回一个 deactivated 函数，改函数会在组件失活时调用。
 
-  > Tip: 如果需要用到 useActivated 生命周期函数，需要使用 KeepAlveScope 包裹 KeepAlive 组件。
+  > Tip: 如果需要用到 useKeepAliveEffect 生命周期函数，需要使用 KeepAlveScope 包裹 KeepAlive 组件。
 
   ```js
   import { KeepAliveScope, KeepAlive } from '@vgbire/react-keep-alive';
@@ -60,19 +60,19 @@ styles?：{
 
 ### KeepAlive 生命周期函数
 
-- useActivated 在组件激活时执行，useActivated 返回的方法会在组件失活时执行。
+- useKeepAliveEffect 在组件激活时执行，useKeepAliveEffect 返回的方法会在组件失活时执行。
 - 第二个可选参数是一个依赖项数组，为了更新回调函数里的依赖，一般不会用到，功能类似 useCallback，依赖变化不会执行函数。
 
   ```js
   // KeepAliveDemo1 Code 生命周期函数使用示例
   import React, { useEffect } from 'react';
-  import { useActivated } from '@vgbire/react-keep-alive';
+  import { useKeepAliveEffect } from '@vgbire/react-keep-alive';
 
   export const KeepAliveDemo1 = () => {
     useEffect(() => {
       console.log('KeepAlive Demo1');
     }, []);
-    useActivated(() => {
+    useKeepAliveEffect(() => {
       console.log('KeepAlive Demo1 激活了');
       return () => {
         console.log('KeepAlive Demo1 失活了');
@@ -91,12 +91,11 @@ styles?：{
 - 标签式路由页面缓存，打开新路由新增一个标签，切换标签则切换到对应路由
 - 缓存路由页面，切换路由或者点击标签切换页面不会重新加载
 - 注意: 该功能需要用到react-router-dom V6.0/V7.0 + API，不支持react-router-dom V5.0及以下版本使用
-- 默认使用V7版本，如果项目使用的是V6版本，可以使用 changeVersion 将功能版本变更为 V6，否则因为版本不一致报错
+- 默认使用V7版本，如果项目使用的是V6版本，可以使用 `changeVersion` 将功能版本变更为 V6，否则会因为版本不一致报错
 
   ```js
-  // App.js
+  // main.js
   import { changeVersion } from '@vgbire/react-keep-alive';
-
   changeVersion(6);
   ```
 
@@ -186,7 +185,7 @@ createBrowserRouter([
 
 ### RouterKeepAlive 生命周期函数
 
-    useRouterActivated 用法同 [useActivated](#keepalive-生命周期函数)
+useRouterEffect 用法同 [useKeepAliveEffect](#keepalive-生命周期函数)
 
 ### RouterKeepAlive 其他 API
 
